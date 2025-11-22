@@ -80,12 +80,13 @@ export default function Home() {
     // ===== EFEITO RIPPLE NOS BOTÕES =====
     const buttons = document.querySelectorAll('.btn-gold');
     buttons.forEach(button => {
-      button.addEventListener('click', function (this: HTMLElement, e: MouseEvent) {
+      button.addEventListener('click', function (this: HTMLElement, e: Event) {
+        const mouseEvent = e as MouseEvent;
         const ripple = document.createElement('span');
         const rect = this.getBoundingClientRect();
         const size = Math.max(rect.width, rect.height);
-        const x = e.clientX - rect.left - size / 2;
-        const y = e.clientY - rect.top - size / 2;
+        const x = mouseEvent.clientX - rect.left - size / 2;
+        const y = mouseEvent.clientY - rect.top - size / 2;
 
         ripple.style.width = ripple.style.height = size + 'px';
         ripple.style.left = x + 'px';
