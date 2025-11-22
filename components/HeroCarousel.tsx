@@ -114,12 +114,6 @@ export default function HeroCarousel() {
             <p className={`hero-description ${isAnimating ? 'animating' : ''}`}>
               {slides[currentSlide].description}
             </p>
-            <div className={`hero-cta ${isAnimating ? 'animating' : ''}`}>
-              <a href="#orcamentoForm" className="hero-btn-primary">
-                <i className="bi bi-calculator me-2"></i>
-                Solicitar Orçamento
-              </a>
-            </div>
           </div>
         </div>
       </div>
@@ -256,108 +250,6 @@ export default function HeroCarousel() {
           animation: fadeInUp 0.8s ease 0.4s both;
         }
 
-        .hero-cta {
-          display: flex;
-          gap: 1rem;
-          justify-content: center;
-          flex-wrap: wrap;
-          animation: fadeInUp 0.8s ease 0.6s both;
-        }
-
-        .hero-cta.animating {
-          animation: fadeInUp 0.8s ease 0.6s both;
-        }
-
-        .hero-btn-primary {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          padding: 0.875rem 2rem;
-          font-size: 0.95rem;
-          font-weight: 500;
-          color: #c9a961;
-          background: transparent;
-          border: 1.5px solid rgba(201, 169, 97, 0.6);
-          border-radius: 50px;
-          text-decoration: none;
-          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-          position: relative;
-          overflow: hidden;
-          backdrop-filter: blur(10px);
-          box-shadow: 
-            0 4px 15px rgba(0, 0, 0, 0.2),
-            inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
-
-        .hero-btn-primary::before {
-          content: '';
-          position: absolute;
-          top: 0;
-          left: -100%;
-          width: 100%;
-          height: 100%;
-          background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(201, 169, 97, 0.3),
-            transparent
-          );
-          transition: left 0.6s ease;
-        }
-
-        .hero-btn-primary:hover::before {
-          left: 100%;
-        }
-
-        .hero-btn-primary::after {
-          content: '';
-          position: absolute;
-          top: -2px;
-          left: -2px;
-          right: -2px;
-          bottom: -2px;
-          background: linear-gradient(
-            45deg,
-            #c9a961,
-            #d4af37,
-            #c9a961,
-            #8b7355
-          );
-          border-radius: 50px;
-          z-index: -1;
-          opacity: 0;
-          transition: opacity 0.4s ease;
-          background-size: 300% 300%;
-          animation: gradientShift 3s ease infinite;
-        }
-
-        .hero-btn-primary:hover::after {
-          opacity: 1;
-        }
-
-        .hero-btn-primary:hover {
-          color: #ffffff;
-          background: rgba(201, 169, 97, 0.15);
-          border-color: rgba(201, 169, 97, 0.9);
-          transform: translateY(-3px);
-          box-shadow: 
-            0 8px 25px rgba(201, 169, 97, 0.4),
-            inset 0 1px 0 rgba(255, 255, 255, 0.2);
-        }
-
-        .hero-btn-primary:active {
-          transform: translateY(-1px);
-        }
-
-        @keyframes gradientShift {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-
         .hero-control {
           position: absolute;
           top: 50%;
@@ -456,17 +348,6 @@ export default function HeroCarousel() {
 
           .hero-next {
             right: 1rem;
-          }
-
-          .hero-cta {
-            flex-direction: column;
-            gap: 0.75rem;
-          }
-
-          .btn-gold,
-          .btn-outline {
-            width: 100%;
-            justify-content: center;
           }
         }
 
