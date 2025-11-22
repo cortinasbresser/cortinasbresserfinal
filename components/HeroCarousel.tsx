@@ -105,9 +105,7 @@ export default function HeroCarousel() {
       <div className="hero-content">
         <div className="container-elegant">
           <div className="hero-text">
-            <h1 className={`hero-title ${isAnimating ? 'animating' : ''}`}>
-              {slides[currentSlide].title}
-            </h1>
+            {/* Título removido conforme solicitado */}
             <p className={`hero-subtitle ${isAnimating ? 'animating' : ''}`}>
               {slides[currentSlide].subtitle}
             </p>
@@ -212,23 +210,10 @@ export default function HeroCarousel() {
           padding: 2rem;
         }
 
-        .hero-title {
-          font-size: clamp(2.5rem, 6vw, 4.5rem);
-          font-weight: 700;
-          color: var(--gold-light);
-          margin-bottom: 1rem;
-          text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
-          animation: fadeInUp 0.8s ease;
-        }
-
-        .hero-title.animating {
-          animation: fadeInUp 0.8s ease;
-        }
-
         .hero-subtitle {
-          font-size: clamp(1.25rem, 3vw, 2rem);
+          font-size: clamp(1.5rem, 4vw, 2.5rem);
           font-weight: 300;
-          color: #ffffff;
+          color: var(--gold-light);
           margin-bottom: 1.5rem;
           text-shadow: 0 2px 15px rgba(0, 0, 0, 0.8);
           animation: fadeInUp 0.8s ease 0.2s both;
@@ -255,22 +240,22 @@ export default function HeroCarousel() {
           top: 50%;
           transform: translateY(-50%);
           z-index: 3;
-          background: rgba(0, 0, 0, 0.5);
-          border: 2px solid rgba(212, 175, 55, 0.5);
+          background: rgba(0, 0, 0, 0.3);
+          border: 1px solid rgba(212, 175, 55, 0.3);
           color: var(--gold-light);
-          width: 50px;
-          height: 50px;
+          width: 40px;
+          height: 40px;
           border-radius: 50%;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
           transition: all 0.3s ease;
-          font-size: 1.5rem;
+          font-size: 1.2rem;
         }
 
         .hero-control:hover {
-          background: rgba(212, 175, 55, 0.9);
+          background: rgba(212, 175, 55, 0.8);
           color: #000;
           transform: translateY(-50%) scale(1.1);
         }
@@ -289,30 +274,29 @@ export default function HeroCarousel() {
           left: 50%;
           transform: translateX(-50%);
           display: flex;
-          gap: 0.75rem;
+          gap: 0.5rem;
           z-index: 3;
         }
 
         .hero-indicator {
-          width: 12px;
-          height: 12px;
+          width: 8px;
+          height: 8px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.5);
-          border: 2px solid transparent;
+          background: rgba(255, 255, 255, 0.3);
+          border: none;
           cursor: pointer;
           transition: all 0.3s ease;
           padding: 0;
         }
 
         .hero-indicator:hover {
-          background: rgba(255, 255, 255, 0.8);
-          transform: scale(1.2);
+          background: rgba(255, 255, 255, 0.6);
+          transform: scale(1.1);
         }
 
         .hero-indicator.active {
           background: var(--gold-light);
-          border-color: var(--gold-medium);
-          transform: scale(1.3);
+          transform: scale(1.2);
         }
 
         @keyframes fadeInUp {
@@ -337,9 +321,9 @@ export default function HeroCarousel() {
           }
 
           .hero-control {
-            width: 40px;
-            height: 40px;
-            font-size: 1.2rem;
+            width: 35px;
+            height: 35px;
+            font-size: 1rem;
           }
 
           .hero-prev {

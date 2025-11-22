@@ -62,13 +62,13 @@ export default function Home() {
       {/* Hero Carousel */}
       <HeroCarousel />
 
-      {/* Logo */}
+      {/* Logo - Reduzido em 50% (200 -> 100) */}
       <header className="text-center py-3" role="banner">
         <Image
           src="/assets/cortinasbresser.svg"
           alt="Cortinas Bresser - Especialistas em Cortinas Sob Medida"
-          width={200}
-          height={80}
+          width={100}
+          height={40}
           className="logo animate-fade-in-bottom mx-auto block"
         />
       </header>
@@ -83,32 +83,32 @@ export default function Home() {
       {/* Diferenciais */}
       <section className="container-elegant py-16">
         <h2 className="text-center text-gold mb-12 reveal-on-scroll text-2xl md:text-3xl font-semibold">Por que escolher a Cortinas Bresser?</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="card-elegant hover-lift animate-fade-in-left delay-200 p-8 text-center">
-            <div className="text-gold mb-4" style={{ fontSize: '3rem' }}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-justify md:text-center">
+          <div className="card-elegant hover-lift animate-fade-in-left delay-200 p-8">
+            <div className="text-gold mb-4 text-center" style={{ fontSize: '3rem' }}>
               <i className="bi bi-scissors"></i>
             </div>
-            <h3 className="text-xl text-gold mb-4 font-medium">Confecção Própria</h3>
+            <h3 className="text-xl text-gold mb-4 font-medium text-center">Confecção Própria</h3>
             <p className="text-muted font-light">
               Controle total de qualidade em cada etapa da produção, garantindo acabamento perfeito.
             </p>
           </div>
 
-          <div className="card-elegant hover-lift animate-fade-in-up delay-300 p-8 text-center">
-            <div className="text-gold mb-4" style={{ fontSize: '3rem' }}>
+          <div className="card-elegant hover-lift animate-fade-in-up delay-300 p-8">
+            <div className="text-gold mb-4 text-center" style={{ fontSize: '3rem' }}>
               <i className="bi bi-clock-history"></i>
             </div>
-            <h3 className="text-xl text-gold mb-4 font-medium">Entrega Rápida</h3>
+            <h3 className="text-xl text-gold mb-4 font-medium text-center">Entrega Rápida</h3>
             <p className="text-muted font-light">
               Compromisso com prazos e agilidade na instalação para sua total satisfação.
             </p>
           </div>
 
-          <div className="card-elegant hover-lift animate-fade-in-right delay-400 p-8 text-center">
-            <div className="text-gold mb-4" style={{ fontSize: '3rem' }}>
+          <div className="card-elegant hover-lift animate-fade-in-right delay-400 p-8">
+            <div className="text-gold mb-4 text-center" style={{ fontSize: '3rem' }}>
               <i className="bi bi-gem"></i>
             </div>
-            <h3 className="text-xl text-gold mb-4 font-medium">Materiais Premium</h3>
+            <h3 className="text-xl text-gold mb-4 font-medium text-center">Materiais Premium</h3>
             <p className="text-muted font-light">
               Tecidos e componentes de alta qualidade para durabilidade e beleza.
             </p>
@@ -180,13 +180,13 @@ export default function Home() {
       <footer className="bg-[#0a0a0a] text-white pt-16 pb-8 border-t border-[#8b7355]/20">
         <div className="container-elegant">
           <div className="flex flex-col items-center text-center">
-            {/* Logo */}
+            {/* Logo - Reduzido em 30% (120 -> 84) */}
             <div className="mb-8">
               <Image
                 src="/assets/cortinasbresser.svg"
                 alt="Cortinas Bresser"
-                width={140}
-                height={56}
+                width={84}
+                height={34}
                 className="mx-auto"
               />
             </div>
@@ -209,7 +209,7 @@ export default function Home() {
 
             <div className="w-24 h-px bg-gradient-to-r from-transparent via-[#d4b56f] to-transparent opacity-30 my-8"></div>
 
-            {/* Redes Sociais */}
+            {/* Redes Sociais - Apenas Instagram e Facebook */}
             <div className="flex justify-center gap-6 mb-8">
               <a
                 href="https://www.instagram.com/cortinasbresser/"
@@ -228,15 +228,6 @@ export default function Home() {
                 aria-label="Facebook"
               >
                 <i className="bi bi-facebook"></i>
-              </a>
-              <a
-                href="https://wa.me/5511994013938"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="social-btn w-12 h-12 rounded-full flex items-center justify-center bg-gradient-to-br from-[#8b7355] to-[#d4b56f] text-white text-xl hover:-translate-y-1 hover:shadow-lg transition-all duration-300"
-                aria-label="WhatsApp"
-              >
-                <i className="bi bi-whatsapp"></i>
               </a>
             </div>
 
