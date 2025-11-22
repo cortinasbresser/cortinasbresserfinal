@@ -231,7 +231,7 @@ export const metadata: Metadata = {
             }
         ],
         locale: siteMetadata.locale,
-        type: siteMetadata.type,
+        type: 'website',
     },
     twitter: {
         card: 'summary_large_image',
