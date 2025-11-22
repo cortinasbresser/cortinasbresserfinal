@@ -39,3 +39,6 @@ next-env.d.ts
 # deploy cache
 scripts/.deploy-cache.json
 
+
+# Local Netlify folder
+.netlify
