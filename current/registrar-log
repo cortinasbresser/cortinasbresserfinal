@@ -1,0 +1,46 @@
+<?php
+// registrar-log.php
+header('Access-Control-Allow-Origin: *');
+header('Access-Control-Allow-Methods: POST');
+header('Access-Control-Allow-Headers: Content-Type');
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Coletar dados do formulário
+    $dados = [
+        'nome' => $_POST['nome'] ?? 'Não informado',
+        'telefone' => $_POST['telefone'] ?? 'Não informado',
+        'paredeLargura' => $_POST['paredeLargura'] ?? 'Não informado',
+        'paredeAltura' => $_POST['paredeAltura'] ?? 'Não informado',
+        'janelaLargura' => $_POST['janelaLargura'] ?? 'Não informado',
+        'janelaAltura' => $_POST['janelaAltura'] ?? 'Não informado',
+        'tecido' => $_POST['tecido'] ?? 'Não informado',
+        'instalacao' => $_POST['instalacao'] ?? 'Não informado',
+        'endereco' => $_POST['endereco'] ?? 'Não informado',
+        'observacoes' => $_POST['observacoes'] ?? 'Nenhuma',
+        'data' => date('d/m/Y H:i:s')
+    ];
+    
+    // Formatar linha do log
+    $linha = "[" . $dados['data'] . "] " .
+             "Nome: " . $dados['nome'] . " | " .
+             "Telefone: " . $dados['telefone'] . " | " .
+             "Parede: " . $dados['paredeLargura'] . "x" . $dados['paredeAltura'] . "m | " .
+             "Janela: " . $dados['janelaLargura'] . "x" . $dados['janelaAltura'] . "m | " .
+             "Tecido: " . $dados['tecido'] . " | " .
+             "Instalação: " . $dados['instalacao'] . " | " .
+             "Endereço: " . $dados['endereco'] . " | " .
+             "Observações: " . $dados['observacoes'] . PHP_EOL;
+    
+    // Salvar no arquivo de log
+    $arquivo_log = 'orcamentos.log';
+    $salvo = file_put_contents($arquivo_log, $linha, FILE_APPEND | LOCK_EX);
+    
+    if ($salvo !== false) {
+        echo "sucesso";
+    } else {
+        echo "erro";
+    }
+} else {
+    echo "erro";
+}
+?>

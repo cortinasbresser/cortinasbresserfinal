@@ -1,0 +1,77 @@
+<?php
+// enviar-email-simples.php - Versão de teste simples
+header('Content-Type: application/json; charset=utf-8');
+error_reporting(0);
+ini_set('display_errors', 0);
+
+if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+    echo json_encode(['status' => 'error', 'message' => 'Método não permitido']);
+    exit;
+}
+
+// Dados de teste - Mude para seu email real
+$email_destino = 'contato@cortinasbresser.com.br'; // ⚠️ ALTERE AQUI
+
+try {
+    $dados = json_decode(file_get_contents('php://input'), true);
+    
+    if (!$dados) {
+        throw new Exception('Dados não recebidos');
+    }
+
+    // Log para debug
+    $log_data = "TESTE EMAIL - " . date('Y-m-d H:i:s') . "\n";
+    $log_data .= "Nome: " . ($dados['nome'] ?? 'N/A') . "\n";
+    $log_data .= "Telefone: " . ($dados['telefone'] ?? 'N/A') . "\n";
+    $log_data .= "Email destino: " . $email_destino . "\n";
+    $log_data .= "========================\n";
+    
+    file_put_contents('email-debug.log', $log_data, FILE_APPEND);
+
+    // Email MUITO simples em texto puro
+    $assunto = "TESTE - Orçamento Cortinas Bresser - " . ($dados['nome'] ?? 'Cliente');
+    $mensagem = "
+NOVA SOLICITAÇÃO DE ORÇAMENTO - CORTINAS BRESSER
+
+DADOS DO CLIENTE:
+Nome: " . ($dados['nome'] ?? '') . "
+Telefone: " . ($dados['telefone'] ?? '') . "
+
+MEDIDAS:
+Parede: " . ($dados['paredeLargura'] ?? '') . "m x " . ($dados['paredeAltura'] ?? '') . "m
+Janela: " . ($dados['janelaLargura'] ?? '') . "m x " . ($dados['janelaAltura'] ?? '') . "m
+
+ESPECIFICAÇÕES:
+Tecido: " . ($dados['tecido'] ?? '') . "
+Instalação: " . ($dados['instalacao'] ?? '') . "
+
+" . (!empty($dados['endereco']) ? "ENDEREÇO:\n" . $dados['endereco'] . "\n\n" : "") . "
+" . (!empty($dados['observacoes']) ? "OBSERVAÇÕES:\n" . $dados['observacoes'] . "\n\n" : "") . "
+Enviado em: " . date('d/m/Y H:i:s') . "
+Via: Site Cortinas Bresser
+    ";
+
+    // Headers básicos
+    $headers = "From: contato@cortinasbresser.com.br\r\n";
+    $headers .= "Reply-To: contato@cortinasbresser.com.br\r\n";
+    $headers .= "Content-Type: text/plain; charset=utf-8\r\n";
+
+    // Tenta enviar o email
+    $enviado = mail($email_destino, $assunto, $mensagem, $headers);
+
+    if ($enviado) {
+        echo json_encode([
+            'status' => 'success', 
+            'message' => 'Email enviado com sucesso para ' . $email_destino
+        ]);
+    } else {
+        throw new Exception('Função mail() retornou false');
+    }
+
+} catch (Exception $e) {
+    echo json_encode([
+        'status' => 'error', 
+        'message' => 'Erro: ' . $e->getMessage()
+    ]);
+}
+?>

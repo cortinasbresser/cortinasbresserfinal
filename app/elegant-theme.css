@@ -1,0 +1,340 @@
+/* ========================================
+   PALETA DE CORES ELEGANTE E SUTIL
+   Baseada no design do site mobile
+   ======================================== */
+
+:root {
+    /* Cores Principais - Tons Dourados Sutis */
+    --gold-elegant: #c9a961;
+    --gold-light: #d4af37;
+    --gold-soft: #e5d5b7;
+    --gold-dark: #8b7355;
+
+    /* Fundos Claros e Sutis */
+    --bg-cream: #f5f0e8;
+    --bg-cream-light: #faf8f5;
+    --bg-white: #ffffff;
+    --bg-dark: #1a1a1a;
+    --bg-black: #000000;
+
+    /* Textos */
+    --text-dark: #2c2c2c;
+    --text-medium: #666666;
+    --text-light: #999999;
+    --text-white: #ffffff;
+
+    /* Bordas Sutis */
+    --border-gold: rgba(201, 169, 97, 0.3);
+    --border-gold-hover: rgba(201, 169, 97, 0.6);
+    --border-light: rgba(0, 0, 0, 0.1);
+
+    /* Sombras Elegantes */
+    --shadow-subtle: 0 2px 8px rgba(0, 0, 0, 0.08);
+    --shadow-medium: 0 4px 15px rgba(0, 0, 0, 0.12);
+    --shadow-strong: 0 8px 25px rgba(0, 0, 0, 0.15);
+    --shadow-gold: 0 4px 15px rgba(201, 169, 97, 0.25);
+
+    /* Transições Suaves */
+    --transition-fast: 0.2s ease;
+    --transition-smooth: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ========================================
+   ATUALIZAÇÃO DE CORES GLOBAIS
+   ======================================== */
+
+/* Textos Dourados - Mais Sutis */
+.text-gold {
+    color: var(--gold-elegant) !important;
+}
+
+/* Backgrounds Claros */
+.bg-cream {
+    background: var(--bg-cream);
+}
+
+.bg-cream-light {
+    background: var(--bg-cream-light);
+}
+
+/* ========================================
+   BOTÕES ELEGANTES
+   ======================================== */
+
+/* Botão Principal - Transparente com Bordas Douradas */
+.btn-elegant {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--gold-elegant);
+    background: transparent;
+    border: 1.5px solid var(--border-gold);
+    border-radius: 50px;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-subtle);
+}
+
+.btn-elegant::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(201, 169, 97, 0.2),
+            transparent);
+    transition: left 0.6s ease;
+}
+
+.btn-elegant:hover::before {
+    left: 100%;
+}
+
+.btn-elegant:hover {
+    color: var(--text-white);
+    background: rgba(201, 169, 97, 0.15);
+    border-color: var(--border-gold-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
+}
+
+/* Botão Dourado Sólido - Mais Sutil */
+.btn-gold-elegant {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.875rem 2rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--bg-black);
+    background: linear-gradient(135deg, var(--gold-elegant), var(--gold-light));
+    border: none;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-subtle);
+}
+
+.btn-gold-elegant:hover {
+    background: linear-gradient(135deg, var(--gold-light), var(--gold-elegant));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-gold);
+}
+
+/* ========================================
+   CARDS ELEGANTES
+   ======================================== */
+
+.card-elegant-light {
+    background: var(--bg-white);
+    border: 1px solid var(--border-light);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: var(--shadow-subtle);
+    transition: var(--transition-smooth);
+}
+
+.card-elegant-light:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--border-gold);
+}
+
+/* ========================================
+   INPUTS E FORMULÁRIOS
+   ======================================== */
+
+.input-elegant {
+    width: 100%;
+    padding: 0.875rem 1.25rem;
+    font-size: 0.95rem;
+    color: var(--text-dark);
+    background: transparent;
+    border: 1.5px solid var(--border-gold);
+    border-radius: 8px;
+    transition: var(--transition-smooth);
+    font-style: italic;
+}
+
+.input-elegant::placeholder {
+    color: var(--gold-elegant);
+    font-style: italic;
+}
+
+.input-elegant:focus {
+    outline: none;
+    border-color: var(--border-gold-hover);
+    background: rgba(201, 169, 97, 0.05);
+    box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
+}
+
+/* ========================================
+   ÍCONES ELEGANTES
+   ======================================== */
+
+.icon-elegant {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--gold-elegant), var(--gold-light));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: var(--bg-black);
+    box-shadow: var(--shadow-subtle);
+    transition: var(--transition-smooth);
+}
+
+.icon-elegant:hover {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: var(--shadow-gold);
+}
+
+/* ========================================
+   BADGES ELEGANTES
+   ======================================== */
+
+.badge-elegant-light {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--gold-dark);
+    background: rgba(201, 169, 97, 0.1);
+    border: 1px solid var(--border-gold);
+    border-radius: 50px;
+    transition: var(--transition-smooth);
+}
+
+.badge-elegant-light:hover {
+    background: rgba(201, 169, 97, 0.2);
+    border-color: var(--border-gold-hover);
+}
+
+/* ========================================
+   DIVISORES ELEGANTES
+   ======================================== */
+
+.divider-elegant-subtle {
+    width: 80px;
+    height: 2px;
+    background: linear-gradient(90deg,
+            transparent,
+            var(--gold-elegant),
+            transparent);
+    margin: 1.5rem auto;
+    opacity: 0.6;
+}
+
+/* ========================================
+   SEÇÕES COM FUNDO CLARO
+   ======================================== */
+
+.section-light {
+    background: linear-gradient(135deg,
+            var(--bg-cream) 0%,
+            var(--bg-cream-light) 50%,
+            var(--bg-cream) 100%);
+    position: relative;
+}
+
+.section-light::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 35px,
+            rgba(201, 169, 97, 0.02) 35px,
+            rgba(201, 169, 97, 0.02) 70px);
+    pointer-events: none;
+}
+
+/* ========================================
+   OVERLAY SUTIL
+   ======================================== */
+
+.overlay-elegant {
+    background: linear-gradient(135deg,
+            rgba(0, 0, 0, 0.6) 0%,
+            rgba(0, 0, 0, 0.3) 50%,
+            rgba(0, 0, 0, 0.6) 100%);
+}
+
+/* ========================================
+   ANIMAÇÕES SUAVES
+   ======================================== */
+
+@keyframes fadeInElegant {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-elegant {
+    animation: fadeInElegant 0.6s ease;
+}
+
+@keyframes shimmerElegant {
+    0% {
+        background-position: -200% center;
+    }
+
+    100% {
+        background-position: 200% center;
+    }
+}
+
+.shimmer-elegant {
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(201, 169, 97, 0.3),
+            transparent);
+    background-size: 200% 100%;
+    animation: shimmerElegant 2s ease infinite;
+}
+
+/* ========================================
+   RESPONSIVO
+   ======================================== */
+
+@media (max-width: 768px) {
+
+    .btn-elegant,
+    .btn-gold-elegant {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.9rem;
+    }
+
+    .icon-elegant {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+
+    .card-elegant-light {
+        padding: 1.5rem;
+    }
+}

@@ -1,0 +1,778 @@
+/* =====================================================
+   CORTINAS BRESSER - CSS CLEAN & ELEGANTE
+   Paleta: Preto, Ouro Escuro, Marrom Pastel Claro
+   Design: Minimalista e Sofisticado para Decoração
+   ===================================================== */
+
+/* ===== VARIÁVEIS E CONFIGURAÇÕES GLOBAIS ===== */
+:root {
+    /* Cores Principais - Paleta Clean e Elegante */
+    --bg-dark: #000000;
+    --bg-soft: #0a0a0a;
+    --text-light: #ffffff;
+    --text-body: #f0f0f0;
+    --text-muted: #cccccc;
+
+    /* Ouro Refinado - Alto Contraste */
+    --gold-dark: #c9a961;
+    --gold-medium: #d4b56f;
+    --gold-light: #e0c285;
+    --gold-accent: #b89865;
+
+    /* Marrom Pastel Claro */
+    --cream-light: #f5f0e8;
+    --cream-medium: #e8dfd2;
+    --cream-dark: #d4c9b8;
+    --beige-soft: #e6dcc8;
+
+    /* Tons Neutros */
+    --gray-warm: #3a3a3a;
+    --gray-light: #6a5f52;
+
+    /* WhatsApp (mantido para funcionalidade) */
+    --whatsapp-green: #25D366;
+
+    /* Sombras Suaves */
+    --shadow-subtle: 0 2px 8px rgba(139, 115, 85, 0.15);
+    --shadow-medium: 0 4px 16px rgba(139, 115, 85, 0.2);
+    --shadow-strong: 0 8px 24px rgba(139, 115, 85, 0.25);
+
+    /* Transições Suaves */
+    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-fast: all 0.2s ease;
+}
+
+/* ===== ESTILOS GLOBAIS ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-dark) !important;
+    color: var(--text-light);
+    font-family: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    font-display: swap;
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-weight: 300;
+    line-height: 1.6;
+    animation: pageLoad 0.6s ease-out;
+}
+
+@keyframes pageLoad {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* Reduzir movimento para acessibilidade */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* ===== ANIMAÇÕES DE ENTRADA REFINADAS ===== */
+
+/* Fade in from bottom */
+@keyframes fadeInBottom {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade in from top */
+@keyframes fadeInTop {
+    from {
+        opacity: 0;
+        transform: translateY(-40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Fade in from left */
+@keyframes fadeInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Fade in from right */
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scale in */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Rotate in */
+@keyframes rotateIn {
+    from {
+        opacity: 0;
+        transform: rotate(-10deg) scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotate(0) scale(1);
+    }
+}
+
+/* Classes utilitárias de animação */
+.animate-fade-in-bottom {
+    animation: fadeInBottom 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-fade-in-top {
+    animation: fadeInTop 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-fade-in-left {
+    animation: fadeInLeft 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-fade-in-right {
+    animation: fadeInRight 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-scale-in {
+    animation: scaleIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.animate-rotate-in {
+    animation: rotateIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+/* Delays para sequência de animações */
+.delay-100 {
+    animation-delay: 0.1s;
+}
+
+.delay-200 {
+    animation-delay: 0.2s;
+}
+
+.delay-300 {
+    animation-delay: 0.3s;
+}
+
+.delay-400 {
+    animation-delay: 0.4s;
+}
+
+.delay-500 {
+    animation-delay: 0.5s;
+}
+
+.delay-600 {
+    animation-delay: 0.6s;
+}
+
+.delay-700 {
+    animation-delay: 0.7s;
+}
+
+.delay-800 {
+    animation-delay: 0.8s;
+}
+
+/* ===== EFEITOS HOVER AVANÇADOS ===== */
+
+/* Efeito de brilho ao passar o mouse */
+.hover-shine {
+    position: relative;
+    overflow: hidden;
+}
+
+.hover-shine::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(245, 240, 232, 0.2),
+            transparent);
+    transition: left 0.6s ease;
+    pointer-events: none;
+}
+
+.hover-shine:hover::before {
+    left: 100%;
+}
+
+/* Efeito de elevação suave */
+.hover-lift {
+    transition: var(--transition-smooth);
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Efeito de glow ao hover */
+.hover-glow {
+    transition: var(--transition-smooth);
+}
+
+.hover-glow:hover {
+    box-shadow: 0 0 20px rgba(139, 115, 85, 0.4),
+        0 0 40px rgba(139, 115, 85, 0.2);
+}
+
+/* ===== UTILITÁRIOS DE LAYOUT ===== */
+
+/* Flex helpers */
+.flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Grid responsivo elegante */
+.grid-elegant {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+/* Espaçamentos consistentes */
+.spacing-xs {
+    margin: 0.5rem 0;
+}
+
+.spacing-sm {
+    margin: 1rem 0;
+}
+
+.spacing-md {
+    margin: 1.5rem 0;
+}
+
+.spacing-lg {
+    margin: 2rem 0;
+}
+
+.spacing-xl {
+    margin: 3rem 0;
+}
+
+/* Padding consistente */
+.padding-xs {
+    padding: 0.5rem;
+}
+
+.padding-sm {
+    padding: 1rem;
+}
+
+.padding-md {
+    padding: 1.5rem;
+}
+
+.padding-lg {
+    padding: 2rem;
+}
+
+.padding-xl {
+    padding: 3rem;
+}
+
+/* ===== ESTADOS VISUAIS ===== */
+
+/* Estado desabilitado elegante */
+.disabled,
+[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+    filter: grayscale(50%);
+}
+
+/* Estado de loading */
+.is-loading {
+    position: relative;
+    pointer-events: none;
+    color: transparent !important;
+}
+
+.is-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin: -10px 0 0 -10px;
+    border: 2px solid var(--gold-medium);
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* ===== TIPOGRAFIA ===== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: var(--gold-light);
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    line-height: 1.3;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+}
+
+h3 {
+    font-size: 1.75rem;
+}
+
+h4 {
+    font-size: 1.5rem;
+}
+
+h5 {
+    font-size: 1.25rem;
+}
+
+h6 {
+    font-size: 1rem;
+}
+
+p {
+    color: #ffffff;
+    line-height: 1.8;
+    font-weight: 300;
+}
+
+/* Text sizes utilitários */
+.text-xs {
+    font-size: 0.75rem;
+}
+
+.text-sm {
+    font-size: 0.875rem;
+}
+
+.text-base {
+    font-size: 1rem;
+}
+
+.text-lg {
+    font-size: 1.125rem;
+}
+
+.text-xl {
+    font-size: 1.25rem;
+}
+
+.text-2xl {
+    font-size: 1.5rem;
+}
+
+.text-3xl {
+    font-size: 1.875rem;
+}
+
+.text-4xl {
+    font-size: 2.25rem;
+}
+
+/* Font weights */
+.font-light {
+    font-weight: 300;
+}
+
+.font-normal {
+    font-weight: 400;
+}
+
+.font-medium {
+    font-weight: 500;
+}
+
+.font-semibold {
+    font-weight: 600;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+/* Text transforms */
+.uppercase {
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.lowercase {
+    text-transform: lowercase;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
+/* ===== CORES PERSONALIZADAS ===== */
+.text-gold {
+    color: var(--gold-light) !important;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+}
+
+.text-gold-light {
+    color: var(--gold-light) !important;
+}
+
+.text-muted {
+    color: #cccccc !important;
+}
+
+.text-white {
+    color: #ffffff !important;
+}
+
+.bg-dark {
+    background-color: var(--bg-dark) !important;
+}
+
+.bg-soft {
+    background-color: var(--bg-soft) !important;
+}
+
+/* ===== BOTÕES CLEAN E ELEGANTES ===== */
+.btn-gold {
+    animation: pulseSubtle 5s ease-in-out infinite;
+    background: linear-gradient(135deg, var(--gold-dark), var(--gold-medium));
+    border: 1px solid var(--gold-accent);
+    color: var(--cream-light) !important;
+    font-weight: 500;
+    letter-spacing: 1.2px;
+    transition: var(--transition-smooth);
+    box-shadow: var(--shadow-subtle);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    padding: 0.9rem 2rem;
+    border-radius: 8px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.btn-gold:hover {
+    background: linear-gradient(135deg, var(--gold-medium), var(--gold-light));
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+    color: var(--cream-light) !important;
+    border-color: var(--gold-light);
+}
+
+.btn-gold:active {
+    transform: translateY(0) scale(0.98);
+}
+
+@keyframes pulseSubtle {
+
+    0%,
+    100% {
+        box-shadow: 0 2px 8px rgba(139, 115, 85, 0.15);
+    }
+
+    50% {
+        box-shadow: 0 4px 12px rgba(139, 115, 85, 0.25);
+    }
+}
+
+/* ===== WHATSAPP FLUTUANTE ===== */
+.whatsapp-float {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 60px;
+    height: 60px;
+    background: var(--whatsapp-green);
+    border-radius: 50%;
+    box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+    transition: var(--transition-smooth);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    animation: whatsappFloat 3s ease-in-out infinite;
+}
+
+.whatsapp-float svg,
+.whatsapp-float i {
+    font-size: 32px;
+    color: #ffffff;
+    animation: whatsappIcon 2s ease-in-out infinite;
+}
+
+.whatsapp-float:hover {
+    transform: scale(1.15);
+    box-shadow: 0 8px 28px rgba(37, 211, 102, 0.6);
+}
+
+.whatsapp-float:hover svg,
+.whatsapp-float:hover i {
+    animation: none;
+    transform: rotate(15deg);
+}
+
+@keyframes whatsappFloat {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+        box-shadow: 0 4px 16px rgba(37, 211, 102, 0.4);
+    }
+
+    50% {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 24px rgba(37, 211, 102, 0.6);
+    }
+}
+
+@keyframes whatsappIcon {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.1);
+    }
+}
+
+/* ===== CARDS ELEGANTES ===== */
+.card-elegant {
+    background: linear-gradient(135deg, rgba(10, 10, 10, 0.95), rgba(139, 115, 85, 0.05));
+    border: 1px solid rgba(139, 115, 85, 0.25);
+    border-radius: 12px;
+    padding: 2rem;
+    transition: var(--transition-smooth);
+    backdrop-filter: blur(10px);
+    box-shadow: var(--shadow-subtle);
+}
+
+.card-elegant:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-medium);
+    border-color: var(--gold-medium);
+}
+
+/* ===== FORMULÁRIOS ELEGANTES ===== */
+.form-control-elegant {
+    background-color: rgba(245, 240, 232, 0.05);
+    border: 1.5px solid rgba(139, 115, 85, 0.25);
+    color: var(--text-light);
+    transition: var(--transition-smooth);
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    padding: 0.85rem 1.1rem;
+    font-size: 0.95rem;
+    font-weight: 300;
+    width: 100%;
+}
+
+.form-control-elegant:focus {
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.98), rgba(20, 20, 20, 1));
+    border-color: var(--gold-light);
+    box-shadow:
+        0 0 0 3px rgba(201, 169, 97, 0.15),
+        0 6px 20px rgba(0, 0, 0, 0.4);
+    color: var(--gold-light);
+    outline: none;
+    transform: translateY(-2px);
+}
+
+.form-control-elegant::placeholder {
+    color: var(--text-muted);
+    font-style: italic;
+    font-weight: 300;
+    opacity: 0.6;
+}
+
+.form-label-elegant {
+    font-weight: 500;
+    margin-bottom: 0.6rem;
+    color: var(--gold-light) !important;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+}
+
+/* ===== RESPONSIVIDADE ===== */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    h2 {
+        font-size: 1.75rem;
+    }
+
+    h3 {
+        font-size: 1.5rem;
+    }
+
+    h4 {
+        font-size: 1.25rem;
+    }
+
+    .btn-gold {
+        padding: 0.75rem 1.5rem;
+        font-size: 0.85rem;
+    }
+
+    .whatsapp-float {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+    }
+
+    .whatsapp-float svg,
+    .whatsapp-float i {
+        font-size: 26px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.75rem;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .padding-xl {
+        padding: 2rem;
+    }
+
+    .padding-lg {
+        padding: 1.5rem;
+    }
+}
+
+/* ===== UTILITÁRIOS ADICIONAIS ===== */
+.container-elegant {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.section-elegant {
+    padding: 5rem 0;
+}
+
+.divider-elegant {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-medium), transparent);
+    margin: 3rem 0;
+    opacity: 0.3;
+}
+
+/* ===== BADGES ELEGANTES ===== */
+.badge-elegant {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: rgba(139, 115, 85, 0.08);
+    border: 1px solid rgba(139, 115, 85, 0.25);
+    border-radius: 25px;
+    font-size: 0.85rem;
+    color: var(--gold-light);
+    font-weight: 400;
+    transition: var(--transition-smooth);
+    letter-spacing: 0.3px;
+}
+
+.badge-elegant:hover {
+    background: rgba(139, 115, 85, 0.15);
+    border-color: var(--gold-medium);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-subtle);
+}

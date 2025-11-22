@@ -1,0 +1,315 @@
+/* ========================================
+   SEÇÃO DE LOCALIZAÇÃO
+   Fundo claro, cards com visual premium
+   ======================================== */
+
+.location-section {
+    background: linear-gradient(135deg, #f5f0e8 0%, #faf8f5 50%, #f5f0e8 100%);
+    border-top: 1px solid rgba(139, 115, 85, 0.15);
+    border-bottom: 1px solid rgba(139, 115, 85, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Padrão sutil de fundo */
+.location-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+        repeating-linear-gradient(45deg,
+            transparent,
+            transparent 35px,
+            rgba(139, 115, 85, 0.02) 35px,
+            rgba(139, 115, 85, 0.02) 70px);
+    pointer-events: none;
+}
+
+/* Textos escuros para contraste */
+.location-section h2,
+.location-section h5,
+.location-section p,
+.location-section strong {
+    color: #1a1a1a !important;
+}
+
+.location-section .text-gold {
+    color: #8b7355 !important;
+}
+
+.location-section .text-muted {
+    color: #666 !important;
+}
+
+/* Container do mapa */
+.map-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 450px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.1),
+        0 1px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.map-container:hover {
+    transform: translateY(-5px);
+    box-shadow:
+        0 15px 40px rgba(0, 0, 0, 0.15),
+        0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+/* Container dos cards */
+.location-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    height: 100%;
+}
+
+/* Cards individuais */
+.location-card {
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 1.5rem;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.08),
+        0 1px 4px rgba(0, 0, 0, 0.04);
+    transition: all 0.3s ease;
+    border: 1px solid rgba(139, 115, 85, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Brilho sutil no hover */
+.location-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg,
+            transparent,
+            rgba(212, 175, 55, 0.1),
+            transparent);
+    transition: left 0.5s ease;
+}
+
+.location-card:hover::before {
+    left: 100%;
+}
+
+.location-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow:
+        0 8px 25px rgba(139, 115, 85, 0.15),
+        0 3px 10px rgba(139, 115, 85, 0.08);
+    border-color: rgba(212, 175, 55, 0.3);
+}
+
+/* Ícone do card */
+.location-card-icon {
+    flex-shrink: 0;
+    width: 60px;
+    height: 60px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #d4af37, #c9a961);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.75rem;
+    color: #000;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    transition: all 0.3s ease;
+}
+
+.location-card:hover .location-card-icon {
+    transform: scale(1.1) rotate(5deg);
+    box-shadow: 0 6px 18px rgba(212, 175, 55, 0.4);
+}
+
+/* Conteúdo do card */
+.location-card-content {
+    flex: 1;
+}
+
+.location-card-content h5 {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 0.75rem;
+    color: #1a1a1a !important;
+}
+
+.location-card-content p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+    color: #444 !important;
+}
+
+.location-card-content strong {
+    color: #8b7355 !important;
+    font-weight: 600;
+}
+
+/* ========================================
+   RESPONSIVO
+   ======================================== */
+
+/* Tablet */
+@media (max-width: 1023px) {
+    .location-cards {
+        gap: 1.25rem;
+    }
+
+    .location-card {
+        padding: 1.25rem;
+    }
+
+    .location-card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+    }
+}
+
+/* Mobile */
+@media (max-width: 767px) {
+    .location-section {
+        padding: 3rem 0;
+    }
+
+    .map-container {
+        min-height: 300px;
+        margin-bottom: 2rem;
+    }
+
+    .location-cards {
+        gap: 1rem;
+    }
+
+    .location-card {
+        padding: 1rem;
+        flex-direction: column;
+        text-align: center;
+        align-items: center;
+    }
+
+    .location-card-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .location-card-content h5 {
+        font-size: 1.1rem;
+    }
+
+    .location-card-content p {
+        font-size: 0.9rem;
+    }
+}
+
+/* Mobile pequeno */
+@media (max-width: 479px) {
+    .map-container {
+        min-height: 250px;
+    }
+
+    .location-card {
+        padding: 0.875rem;
+    }
+
+    .location-card-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.25rem;
+    }
+}
+
+/* ========================================
+   ANIMAÇÕES
+   ======================================== */
+
+@keyframes fadeInMap {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.map-container {
+    animation: fadeInMap 0.6s ease;
+}
+
+@keyframes slideInCard {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.location-card {
+    animation: slideInCard 0.5s ease;
+}
+
+.location-card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+
+.location-card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+
+.location-card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+.location-card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+
+/* ========================================
+   ACESSIBILIDADE
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .map-container,
+    .location-card {
+        animation: none;
+    }
+
+    .location-card::before {
+        display: none;
+    }
+
+    .location-card:hover {
+        transform: none;
+    }
+
+    .location-card:hover .location-card-icon {
+        transform: none;
+    }
+}

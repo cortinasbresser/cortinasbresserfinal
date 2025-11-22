@@ -1,0 +1,439 @@
+document.addEventListener('DOMContentLoaded', function () {
+  // Elementos do DOM
+  const form = document.getElementById('orcamentoForm');
+  const btn = document.getElementById('btnEnviar');
+  const loaderModal = document.getElementById('loaderModal');
+  
+  // Verificação de elementos críticos
+  if (!form || !btn) {
+    console.error('Elementos do formulário não encontrados');
+    return;
+  }
+
+  console.log('Formulário carregado - JavaScript funcionando'); // Debug
+
+  // Inicialização de modais Bootstrap
+  const loaderBootstrapModal = loaderModal?.classList.contains('modal') ? new bootstrap.Modal(loaderModal) : null;
+
+  // Configuração do formulário
+  form.addEventListener('submit', function(event) {
+    console.log('Submit detectado - prevenindo comportamento padrão'); // Debug
+    handleFormSubmit(event);
+  });
+  
+  // Adiciona validação em tempo real para melhor UX
+  setupRealTimeValidation();
+
+  // Função principal de submit
+  async function handleFormSubmit(event) {
+    // Prevenir comportamento padrão DO FORMULÁRIO
+    if (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      event.stopImmediatePropagation();
+    }
+
+    console.log('Processando formulário...'); // Debug
+
+    // Validação adicional do telefone antes de verificar todo o formulário
+    const telefoneInput = document.getElementById('telefone');
+    if (telefoneInput && telefoneInput.value && !validarTelefone(telefoneInput.value)) {
+      form.classList.add('was-validated');
+      showFloatingAlert('Por favor, informe um número de telefone válido com DDD.', 'warning');
+      telefoneInput.focus();
+      telefoneInput.classList.remove('is-valid');
+      telefoneInput.classList.add('is-invalid');
+      return false;
+    }
+
+    // Verifica se o formulário está válido
+    if (!form.checkValidity()) {
+      form.classList.add('was-validated');
+      showInvalidFields();
+      
+      // Mostra alerta suspenso
+      showFloatingAlert('Por favor, preencha todos os campos obrigatórios corretamente.', 'warning');
+      return false;
+    }
+
+    // Prepara envio
+    await submitFormData();
+    return false; // Importante: sempre retornar false para forms
+  }
+
+  // Função para validar telefone brasileiro
+  function validarTelefone(telefone) {
+    if (!telefone) return false;
+    
+    // Remove todos os caracteres não numéricos
+    const numeroLimpo = telefone.replace(/\D/g, '');
+    
+    // Verifica se tem entre 10 e 11 dígitos (com DDD)
+    if (numeroLimpo.length < 10 || numeroLimpo.length > 11) {
+      return false;
+    }
+    
+    // Verifica se o DDD é válido (11 a 99)
+    const ddd = numeroLimpo.substring(0, 2);
+    if (ddd < 11 || ddd > 99) {
+      return false;
+    }
+    
+    return true;
+  }
+
+  // Função para formatar telefone
+  function formatarTelefone(telefone) {
+    if (!telefone) return '';
+    
+    const numeroLimpo = telefone.replace(/\D/g, '');
+    
+    if (numeroLimpo.length === 11) {
+      return numeroLimpo.replace(/(\d{2})(\d{5})(\d{4})/, '($1) $2-$3');
+    } else if (numeroLimpo.length === 10) {
+      return numeroLimpo.replace(/(\d{2})(\d{4})(\d{4})/, '($1) $2-$3');
+    }
+    
+    return telefone;
+  }
+
+  // Função para mostrar campos inválidos
+  function showInvalidFields() {
+    const invalidFields = form.querySelectorAll(':invalid');
+    if (invalidFields.length > 0) {
+      invalidFields[0].scrollIntoView({ behavior: 'smooth', block: 'center' });
+      invalidFields[0].focus();
+    }
+  }
+
+  // Função para mostrar alerta suspenso
+  function showFloatingAlert(message, type) {
+    // Remove alertas existentes
+    removeFloatingAlerts();
+    
+    // Cria o alerta suspenso
+    const alertBox = document.createElement('div');
+    alertBox.className = `alert alert-${type} alert-dismissible fade show alert-floating`;
+    alertBox.innerHTML = `
+      <div class="d-flex align-items-center justify-content-center">
+        <span class="me-2">${message}</span>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+      </div>
+    `;
+    
+    // Adiciona ao body
+    document.body.appendChild(alertBox);
+    
+    // Força reflow para animação
+    void alertBox.offsetHeight;
+    
+    // Adiciona classe para animação de entrada
+    alertBox.classList.add('slide-in');
+    alertBox.classList.add('show');
+    
+    // Configura auto-removal após 5 segundos
+    const autoRemoveTimer = setTimeout(() => {
+      removeFloatingAlert(alertBox);
+    }, 5000);
+    
+    // Remove ao clicar no botão de fechar
+    const closeBtn = alertBox.querySelector('.btn-close');
+    closeBtn.addEventListener('click', () => {
+      clearTimeout(autoRemoveTimer);
+      removeFloatingAlert(alertBox);
+    });
+    
+    // Remove ao clicar em qualquer lugar do alerta (exceto no botão fechar)
+    alertBox.addEventListener('click', (e) => {
+      if (!e.target.closest('.btn-close')) {
+        clearTimeout(autoRemoveTimer);
+        removeFloatingAlert(alertBox);
+      }
+    });
+  }
+
+  // Remove alerta suspenso específico com animação
+  function removeFloatingAlert(alertBox) {
+    if (!alertBox || !alertBox.parentElement) return;
+    
+    alertBox.classList.remove('slide-in');
+    alertBox.classList.add('slide-out');
+    
+    setTimeout(() => {
+      if (alertBox.parentElement) {
+        alertBox.remove();
+      }
+    }, 400);
+  }
+
+  // Remove todos os alertas suspensos
+  function removeFloatingAlerts() {
+    const existingAlerts = document.querySelectorAll('.alert-floating');
+    existingAlerts.forEach(alert => {
+      removeFloatingAlert(alert);
+    });
+  }
+
+// Função de envio dos dados via AJAX
+async function submitFormData() {
+    console.log('📤 Enviando formulário via AJAX...');
+    
+    const form = document.getElementById('orcamentoForm');
+    const btnEnviar = document.getElementById('btnEnviar');
+    const loaderModal = document.getElementById('loaderModal');
+    
+    setLoadingState(true);
+    
+    try {
+        const formData = new FormData(form);
+        
+        // Processa o nome para pegar apenas o primeiro nome
+        const nomeCompleto = formData.get('nome');
+        const primeiroNome = nomeCompleto ? nomeCompleto.split(' ')[0] : '';
+        if (primeiroNome) {
+            formData.set('nome', primeiroNome);
+        }
+        
+        console.log('📨 Enviando para enviar.php...');
+        const response = await fetch('enviar.php', {
+            method: 'POST',
+            body: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
+        
+        // Verifica se a resposta está OK antes de tentar parse JSON
+        if (!response.ok) {
+            throw new Error(`Erro HTTP: ${response.status}`);
+        }
+        
+        // Tenta fazer parse do JSON
+        let data;
+        try {
+            const text = await response.text();
+            console.log('📨 Resposta bruta:', text);
+            
+            if (!text) {
+                throw new Error('Resposta vazia do servidor');
+            }
+            
+            data = JSON.parse(text);
+        } catch (parseError) {
+            console.error('❌ Erro ao parsear JSON:', parseError);
+            throw new Error('Resposta inválida do servidor');
+        }
+        
+        console.log('📨 Resposta do servidor:', data);
+        
+        if (data.status === 'success') {
+            handleSuccess(data.message);
+        } else {
+            throw new Error(data.message || 'Erro ao processar solicitação');
+        }
+        
+    } catch (error) {
+        console.error('❌ Erro no envio:', error);
+        
+        // Mensagens de erro mais amigáveis
+        let errorMessage = 'Erro de conexão. Tente novamente mais tarde.';
+        
+        if (error.message.includes('HTTP')) {
+            errorMessage = 'Erro no servidor. Tente novamente.';
+        } else if (error.message.includes('JSON') || error.message.includes('parse')) {
+            errorMessage = 'Erro no processamento dos dados. Tente novamente.';
+        } else if (error.message) {
+            errorMessage = error.message;
+        }
+        
+        handleError(errorMessage);
+    } finally {
+        setLoadingState(false);
+    }
+}
+
+  // Função para gerenciar estado de carregamento
+  function setLoadingState(loading) {
+    btn.disabled = loading;
+    
+    // Atualiza texto do botão
+    const btnText = btn.querySelector('.btn-text');
+    const spinner = btn.querySelector('.spinner-border');
+    
+    if (btnText) btnText.textContent = loading ? 'Enviando...' : 'Enviar orçamento';
+    if (spinner) spinner.classList.toggle('d-none', !loading);
+    
+    // Gerencia modal de loading
+    if (loaderBootstrapModal) {
+      if (loading) {
+        loaderBootstrapModal.show();
+      } else {
+        loaderBootstrapModal.hide();
+      }
+    } else if (loaderModal) {
+      // Fallback para modal customizado
+      if (loading) {
+        loaderModal.style.display = 'flex';
+        loaderModal.classList.add('show');
+      } else {
+        loaderModal.style.display = 'none';
+        loaderModal.classList.remove('show');
+      }
+      document.body.style.overflow = loading ? 'hidden' : '';
+    }
+  }
+
+  // Função para sucesso no envio
+  function handleSuccess(message) {
+    console.log('Sucesso no envio:', message); // Debug
+    
+    // Reseta formulário
+    form.reset();
+    form.classList.remove('was-validated');
+    
+    // Remove classes de validação de todos os campos
+    const campos = form.querySelectorAll('.is-valid, .is-invalid');
+    campos.forEach(campo => {
+      campo.classList.remove('is-valid', 'is-invalid');
+    });
+    
+    // Remove alertas existentes
+    removeFloatingAlerts();
+    
+    // Mostra alerta suspenso de sucesso
+    showFloatingAlert('✅ ' + message, 'success');
+    
+    // Rola para o topo do formulário
+    form.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Função para tratamento de erro
+  function handleError(message) {
+    console.log('Erro no envio:', message); // Debug
+    removeFloatingAlerts();
+    showFloatingAlert('❌ ' + message, 'danger');
+    
+    // Mantém o foco no formulário
+    form.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Configura validação em tempo real
+  function setupRealTimeValidation() {
+    const inputs = form.querySelectorAll('input, select, textarea');
+    
+    inputs.forEach(input => {
+      // Validação específica para telefone
+      if (input.id === 'telefone') {
+        input.addEventListener('input', function() {
+          // Formata o telefone enquanto digita
+          const cursorPosition = this.selectionStart;
+          const valorFormatado = formatarTelefone(this.value);
+          
+          if (valorFormatado !== this.value) {
+            this.value = valorFormatado;
+            // Mantém a posição do cursor
+            const newCursorPosition = Math.min(cursorPosition + (valorFormatado.length - this.value.length), valorFormatado.length);
+            this.setSelectionRange(newCursorPosition, newCursorPosition);
+          }
+          
+          validateField(this);
+        });
+        
+        // Validação personalizada para telefone
+        input.addEventListener('blur', function() {
+          if (this.value && !validarTelefone(this.value)) {
+            this.classList.remove('is-valid');
+            this.classList.add('is-invalid');
+          } else {
+            validateField(this);
+          }
+        });
+      } else {
+        // Validação normal para outros campos
+        input.addEventListener('input', function() {
+          if (this.classList.contains('is-invalid')) {
+            validateField(this);
+          }
+        });
+        
+        input.addEventListener('blur', function() {
+          validateField(this);
+        });
+      }
+    });
+  }
+
+  // Valida campo individual
+  function validateField(field) {
+    // Validação personalizada para telefone
+    if (field.id === 'telefone' && field.value) {
+      if (validarTelefone(field.value)) {
+        field.classList.remove('is-invalid');
+        field.classList.add('is-valid');
+      } else {
+        field.classList.remove('is-valid');
+        field.classList.add('is-invalid');
+      }
+      return;
+    }
+    
+    // Validação padrão para outros campos
+    if (field.checkValidity()) {
+      field.classList.remove('is-invalid');
+      field.classList.add('is-valid');
+    } else {
+      field.classList.remove('is-valid');
+      field.classList.add('is-invalid');
+    }
+  }
+
+  // Adiciona máscara de telefone quando a página carrega
+  const telefoneInput = document.getElementById('telefone');
+  if (telefoneInput && telefoneInput.value) {
+    telefoneInput.value = formatarTelefone(telefoneInput.value);
+  }
+});
+
+// Prevenir qualquer submit que possa escapar
+document.addEventListener('submit', function(e) {
+  if (e.target.id === 'orcamentoForm') {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+});
+
+// Google Maps Autocomplete + Mapa (Opcional)
+function initMap() {
+  const mapElement = document.getElementById("map");
+  const input = document.getElementById("endereco");
+
+  if (!mapElement || !input || typeof google === 'undefined') return;
+
+  try {
+    const map = new google.maps.Map(mapElement, {
+      center: { lat: -23.55052, lng: -46.633308 },
+      zoom: 12,
+    });
+
+    const autocomplete = new google.maps.places.Autocomplete(input, {
+      types: ['address'],
+      componentRestrictions: { country: 'br' }
+    });
+
+    const marker = new google.maps.Marker({ map });
+
+    autocomplete.addListener("place_changed", () => {
+      const place = autocomplete.getPlace();
+      if (!place.geometry || !place.geometry.location) return;
+
+      map.setCenter(place.geometry.location);
+      map.setZoom(15);
+      marker.setPosition(place.geometry.location);
+    });
+
+  } catch (error) {
+    console.error('Erro ao inicializar mapa:', error);
+  }
+}
+
+window.initMap = initMap;

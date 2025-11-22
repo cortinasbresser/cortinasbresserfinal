@@ -1,0 +1,49 @@
+name: Deploy to Locaweb FTP
+
+on:
+  push:
+    branches:
+      - main
+      - master
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 📥 Checkout code
+        uses: actions/checkout@v4
+      
+      - name: 🔧 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: 📦 Install dependencies
+        run: npm ci
+      
+      - name: 🏗️ Build Next.js application
+        run: npm run build
+        env:
+          NODE_ENV: production
+      
+      - name: 📤 Deploy to Locaweb FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server: ${{ 177.153.209.189 }}
+          username: ${{ cortinasbresser2 }}
+          password: ${{ XJAX838iwG9pwR4@ }}
+          port: ${{ 21 }}
+          local-dir: ./out/
+          server-dir: ${{ 177.153.209.189 || '/public_html/' }}
+          dangerous-clean-slate: false
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/.env*
+      
+      - name: ✅ Deployment complete
+        run: echo "🎉 Deploy concluído com sucesso!"

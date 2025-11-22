@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teste - Geração de PDF com Logo</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #8b7355;
+            text-align: center;
+        }
+        .step {
+            background: #f5f0e8;
+            padding: 15px;
+            margin: 20px 0;
+            border-left: 4px solid #c9a961;
+            border-radius: 5px;
+        }
+        .step h3 {
+            color: #8b7355;
+            margin-top: 0;
+        }
+        button {
+            background: linear-gradient(135deg, #c9a961, #d4b56f);
+            color: #1a1a1a;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto;
+            transition: all 0.3s;
+        }
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(201, 169, 97, 0.4);
+        }
+        .result {
+            background: #e8f5e9;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+            display: none;
+        }
+        .error {
+            background: #ffebee;
+            color: #c62828;
+        }
+        .success {
+            color: #2e7d32;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Teste de PDF com Logo</h1>
+        
+        <div class="step">
+            <h3>Passo 1: Converter Logo</h3>
+            <p>Converta o logo SVG para PNG de alta qualidade:</p>
+            <button onclick="converterLogo()">🔄 Converter Logo SVG → PNG</button>
+            <div id="result-converter" class="result"></div>
+        </div>
+        
+        <div class="step">
+            <h3>Passo 2: Gerar PDF de Teste</h3>
+            <p>Gere um PDF de exemplo com o logo:</p>
+            <button onclick="gerarPDFTeste()">📄 Gerar PDF de Teste</button>
+            <div id="result-pdf" class="result"></div>
+        </div>
+    </div>
+
+    <script>
+        async function converterLogo() {
+            const resultDiv = document.getElementById('result-converter');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '⏳ Convertendo logo...';
+            
+            try {
+                const response = await fetch('converter-logo-pdf.php');
+                const text = await response.text();
+                
+                if (response.ok) {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = '<strong>✅ Sucesso!</strong><br>' + text.replace(/\n/g, '<br>');
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = '<strong>❌ Erro!</strong><br>' + text;
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = '<strong>❌ Erro!</strong><br>' + error.message;
+            }
+        }
+        
+        async function gerarPDFTeste() {
+            const resultDiv = document.getElementById('result-pdf');
+            resultDiv.style.display = 'block';
+            resultDiv.className = 'result';
+            resultDiv.innerHTML = '⏳ Gerando PDF de teste...';
+            
+            // Dados de teste
+            const dadosTeste = {
+                nome: 'Cliente Teste',
+                telefone: '(11) 99999-9999',
+                parede: '3.50 m',
+                altura_parede: '2.80 m',
+                tecido: 'Blackout Premium',
+                instalacao: 'Trilho',
+                endereco: 'Rua Teste, 123 - Bairro Teste - São Paulo/SP',
+                observacoes: 'PDF gerado automaticamente para teste do sistema com logo.'
+            };
+            
+            try {
+                const response = await fetch('enviar-email.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(dadosTeste)
+                });
+                
+                const result = await response.json();
+                
+                if (result.status === 'success') {
+                    resultDiv.className = 'result success';
+                    resultDiv.innerHTML = '<strong>✅ PDF Gerado com Sucesso!</strong><br>' +
+                        result.message + '<br><br>' +
+                        '📄 Arquivo: ' + result.pdf_nome + '<br>' +
+                        '🔗 URL: <a href="' + result.pdf_url + '" target="_blank" style="color: #8b7355;">Ver PDF</a>';
+                } else {
+                    resultDiv.className = 'result error';
+                    resultDiv.innerHTML = '<strong>❌ Erro!</strong><br>' + (result.message || 'Erro desconhecido');
+                }
+            } catch (error) {
+                resultDiv.className = 'result error';
+                resultDiv.innerHTML = '<strong>❌ Erro!</strong><br>' + error.message;
+            }
+        }
+    </script>
+</body>
+</html>

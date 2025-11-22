@@ -1,0 +1,24 @@
+# Proteger diretório admin
+<Files "*">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+<Files "*.php">
+    Order Allow,Deny
+    Allow from all
+</Files>
+
+<Files ".htaccess">
+    Order Deny,Allow
+    Deny from all
+</Files>
+
+# Desabilitar listagem de diretório
+Options -Indexes
+
+# Prevenir acesso direto a arquivos sensíveis
+<FilesMatch "^(config\.php)$">
+    Order Deny,Allow
+    Deny from all
+</FilesMatch>
