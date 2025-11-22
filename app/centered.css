@@ -1,0 +1,14 @@
+/* Centered utility classes */
+.centered {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* Ensure sections take full width and center content */
+section {
+    width: 100%;
+    margin: 0 auto;
+}
