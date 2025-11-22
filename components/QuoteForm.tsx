@@ -9,7 +9,7 @@ const schema = z.object({
     telefone: z.string().regex(/^[0-9\s()+-]{10,15}$/, 'Telefone inválido'),
     parede: z.string().min(1, 'Largura obrigatória'),
     altura_parede: z.string().min(1, 'Altura obrigatória'),
-    tecido: z.enum(['Voil', 'Linho', 'Blackout', 'Seda', 'Outros']),
+    tecido: z.enum(['Voil', 'Linho', 'Blackout', 'Outros']),
     instalacao: z.enum(['Trilho', 'Varão', 'Não sei']),
     observacoes: z.string().optional(),
     endereco: z.string().optional(),
@@ -65,14 +65,19 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
                 throw new Error(result.error || 'Falha desconhecida ao enviar e-mail');
             }
 
-            // Abre WhatsApp
-            const whatsappNumber = '5511994013938';
-            const url = `https://wa.me/${whatsappNumber}?text=${gerarMensagemWhatsApp(data)}`;
-            window.open(url, '_blank');
-
-            // Reseta o formulário e notifica sucesso
-            reset();
+            // Notifica sucesso (o modal será aberto pelo pai via onSuccess)
             onSuccess();
+
+            // Reseta o formulário
+            reset();
+
+            // Abre WhatsApp após um pequeno delay para o modal aparecer primeiro
+            setTimeout(() => {
+                const whatsappNumber = '5511994013938';
+                const url = `https://wa.me/${whatsappNumber}?text=${gerarMensagemWhatsApp(data)}`;
+                window.open(url, '_blank');
+            }, 2000);
+
         } catch (err: any) {
             console.error('Erro detalhado no envio:', err);
             alert(`Não foi possível enviar sua solicitação.\nErro: ${err.message || 'Erro de conexão'}\n\nPor favor, tente novamente ou contate-nos diretamente pelo WhatsApp.`);
@@ -140,7 +145,6 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
                     <option value="Voil">Voil</option>
                     <option value="Linho">Linho (Variedades)</option>
                     <option value="Blackout">Blackout</option>
-                    <option value="Seda">Seda</option>
                     <option value="Outros">Outros</option>
                 </select>
                 {errors.tecido && <p className="text-danger small mt-1">{errors.tecido.message}</p>}

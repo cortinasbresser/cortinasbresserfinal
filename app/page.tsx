@@ -263,10 +263,10 @@ export default function Home() {
               <div className="text-gold mb-4" style={{ fontSize: '4rem' }}>
                 <i className="bi bi-check-circle-fill"></i>
               </div>
-              <h4 className="text-gold text-2xl mb-4 font-semibold">Orçamento Recebido!</h4>
-              <p className="mb-2 text-white">Seus dados foram <strong>recebidos com sucesso</strong>.</p>
-              <p className="mb-6 text-gray-300">Em breve entraremos em contato para confirmar as medidas e fornecer o orçamento.</p>
-              <button className="btn-gold w-full" onClick={() => setShowModal(false)}>Fechar</button>
+              <h4 className="text-gold text-2xl mb-4 font-semibold">Orçamento Enviado!</h4>
+              <p className="mb-2 text-white">Seus dados foram recebidos com sucesso.</p>
+              <p className="mb-6 text-gray-300">Você será redirecionado para o WhatsApp para finalizar seu atendimento com um de nossos especialistas.</p>
+              <button className="btn-gold w-full" onClick={() => setShowModal(false)}>Entendi</button>
             </div>
           </div>
         </div>
