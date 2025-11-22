@@ -15,7 +15,15 @@ type QuoteData = {
 
 export async function POST(request: Request) {
     try {
+        console.log('API: Recebendo solicitação de orçamento...');
         const data: QuoteData = await request.json();
+        console.log('API: Dados recebidos:', data);
+
+        // Validação básica de variáveis de ambiente
+        if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
+            console.error('API Error: Variáveis de ambiente SMTP não configuradas.');
+            return NextResponse.json({ success: false, error: 'Configuração de servidor de e-mail ausente.' }, { status: 500 });
+        }
 
         // Build email content
         const mensagem = `
@@ -29,7 +37,7 @@ export async function POST(request: Request) {
       ${data.observacoes ? `<p><strong>Observações:</strong> ${data.observacoes}</p>` : ''}
     `;
 
-        // Configure transporter (SMTP credentials must be set in .env)
+        // Configure transporter
         const transporter = nodemailer.createTransport({
             host: process.env.SMTP_HOST,
             port: Number(process.env.SMTP_PORT),
@@ -40,16 +48,18 @@ export async function POST(request: Request) {
             },
         });
 
+        console.log('API: Tentando enviar e-mail...');
         await transporter.sendMail({
             from: `"Cortinas Bresser" <${process.env.SMTP_USER}>`,
             to: process.env.RECIPIENT_EMAIL,
             subject: 'Nova solicitação de orçamento',
             html: mensagem,
         });
+        console.log('API: E-mail enviado com sucesso!');
 
         return NextResponse.json({ success: true });
     } catch (error) {
-        console.error('Erro ao processar solicitação de orçamento:', error);
+        console.error('API Error: Erro ao processar solicitação de orçamento:', error);
         return NextResponse.json({ success: false, error: (error as Error).message }, { status: 500 });
     }
 }

@@ -49,14 +49,21 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
 
     const onSubmit = async (data: FormData) => {
         try {
+            console.log('Iniciando envio do formulário...', data);
+
             // Envia para API (email)
             const response = await fetch('/api/send-quote', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
             });
+
             const result = await response.json();
-            if (!result.success) throw new Error('Falha ao enviar e‑mail');
+            console.log('Resposta da API:', result);
+
+            if (!result.success) {
+                throw new Error(result.error || 'Falha desconhecida ao enviar e-mail');
+            }
 
             // Abre WhatsApp
             const whatsappNumber = '5511994013938';
@@ -66,13 +73,13 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
             // Reseta o formulário e notifica sucesso
             reset();
             onSuccess();
-        } catch (err) {
-            console.error(err);
-            alert('Ocorreu um erro ao enviar a solicitação. Tente novamente.');
+        } catch (err: any) {
+            console.error('Erro detalhado no envio:', err);
+            alert(`Não foi possível enviar sua solicitação.\nErro: ${err.message || 'Erro de conexão'}\n\nPor favor, tente novamente ou contate-nos diretamente pelo WhatsApp.`);
         }
     };
 
-    // Efeito de foco nos inputs (brilho) – opcional, pode ser removido se não quiser
+    // Efeito de foco nos inputs (brilho)
     useEffect(() => {
         const inputs = document.querySelectorAll('.form-control-elegant, select');
         inputs.forEach((input) => {
