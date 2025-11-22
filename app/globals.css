@@ -1,11 +1,6 @@
 /* Importar CSS customizado do Cortinas Bresser */
 @import './cortinas-bresser.css';
-@import './additional-styles.css';
-@import './form-effects.css';
-@import './responsive.css';
-@import './layout-fix.css';
-@import './location.css';
-@import './elegant-theme.css';
+/* @import './elegant-theme.css'; -- Desativado para limpeza, reativar se necessário */
 
 /* Tailwind CSS */
 @tailwind base;
