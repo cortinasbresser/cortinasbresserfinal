@@ -1,5 +1,7 @@
 # CRM Cortinas Bresser
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/b1e5b7c7-b862-4e13-8b1e-01af9210d835/deploy-status)](https://app.netlify.com/projects/cortinasbresser/deploys)
+
 Sistema de gerenciamento de relacionamento com clientes para Cortinas Bresser.
 
 ## 🚀 Tecnologias
