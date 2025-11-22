@@ -6,6 +6,7 @@
 @import './layout-fix.css';
 @import './location.css';
 @import './elegant-theme.css';
+@import './minimal-elegant.css';
 
 /* Tailwind CSS */
 @tailwind base;
@@ -15,8 +16,8 @@
 /* Sobrescrever algumas configurações do Tailwind para manter o design do Cortinas Bresser */
 @layer base {
   body {
-    background-color: #000000;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #2c2c2c;
   }
 }
 

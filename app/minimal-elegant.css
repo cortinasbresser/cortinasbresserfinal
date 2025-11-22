@@ -1,0 +1,419 @@
+/* ========================================
+   TEMA MINIMALISTA ELEGANTE
+   Design Premium com Tipografia Delicada
+   ======================================== */
+
+:root {
+    /* Tipografia Refinada */
+    --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    --font-display: 'Playfair Display', Georgia, serif;
+
+    /* Tamanhos de Fonte Sutis */
+    --text-xs: 0.75rem;
+    /* 12px */
+    --text-sm: 0.875rem;
+    /* 14px */
+    --text-base: 0.9375rem;
+    /* 15px */
+    --text-md: 1rem;
+    /* 16px */
+    --text-lg: 1.125rem;
+    /* 18px */
+    --text-xl: 1.5rem;
+    /* 24px */
+    --text-2xl: 2rem;
+    /* 32px */
+    --text-3xl: 2.5rem;
+    /* 40px */
+
+    /* Pesos de Fonte */
+    --font-light: 300;
+    --font-normal: 400;
+    --font-medium: 500;
+    --font-semibold: 600;
+
+    /* Espaçamentos Generosos */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2.5rem;
+    --space-xl: 4rem;
+    --space-2xl: 6rem;
+
+    /* Cores Minimalistas */
+    --color-primary: #c9a961;
+    --color-text: #2c2c2c;
+    --color-text-light: #6b6b6b;
+    --color-text-lighter: #999999;
+    --color-bg: #ffffff;
+    --color-bg-subtle: #fafafa;
+    --color-border: rgba(0, 0, 0, 0.08);
+}
+
+/* ========================================
+   RESET E BASE
+   ======================================== */
+
+* {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+    font-family: var(--font-primary);
+    font-size: var(--text-base);
+    font-weight: var(--font-light);
+    line-height: 1.7;
+    letter-spacing: 0.01em;
+    color: var(--color-text);
+}
+
+/* ========================================
+   TIPOGRAFIA ELEGANTE
+   ======================================== */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-display);
+    font-weight: var(--font-light);
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin: 0;
+}
+
+h1 {
+    font-size: var(--text-3xl);
+    font-weight: var(--font-light);
+}
+
+h2 {
+    font-size: var(--text-2xl);
+    font-weight: var(--font-light);
+}
+
+h3 {
+    font-size: var(--text-xl);
+    font-weight: var(--font-normal);
+}
+
+p {
+    margin: 0 0 var(--space-md);
+    font-size: var(--text-base);
+    font-weight: var(--font-light);
+    color: var(--color-text-light);
+}
+
+/* Texto Pequeno e Delicado */
+.text-delicate {
+    font-size: var(--text-sm);
+    font-weight: var(--font-light);
+    color: var(--color-text-lighter);
+    letter-spacing: 0.02em;
+}
+
+/* ========================================
+   HERO MINIMALISTA
+   ======================================== */
+
+.hero-minimal {
+    position: relative;
+    height: 70vh;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.hero-minimal::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.2) 0%,
+            rgba(0, 0, 0, 0.4) 100%);
+    pointer-events: none;
+}
+
+.hero-image-minimal {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: brightness(0.85) contrast(1.1);
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.hero-minimal:hover .hero-image-minimal {
+    transform: scale(1.02);
+}
+
+/* ========================================
+   CONTAINERS CENTRALIZADOS
+   ======================================== */
+
+.container-minimal {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+    width: 100%;
+}
+
+.container-narrow {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+    width: 100%;
+}
+
+.container-tight {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 0 var(--space-md);
+    width: 100%;
+}
+
+/* ========================================
+   SEÇÕES COM ESPAÇAMENTO GENEROSO
+   ======================================== */
+
+.section-minimal {
+    padding: var(--space-2xl) 0;
+}
+
+.section-minimal-sm {
+    padding: var(--space-xl) 0;
+}
+
+/* ========================================
+   CARDS MINIMALISTAS
+   ======================================== */
+
+.card-minimal {
+    background: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-radius: 0;
+    padding: var(--space-lg);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-minimal:hover {
+    border-color: var(--color-primary);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+    transform: translateY(-2px);
+}
+
+/* ========================================
+   FORMULÁRIOS ELEGANTES
+   ======================================== */
+
+.form-minimal {
+    width: 100%;
+}
+
+.form-group-minimal {
+    margin-bottom: var(--space-lg);
+}
+
+.label-minimal {
+    display: block;
+    margin-bottom: var(--space-xs);
+    font-size: var(--text-sm);
+    font-weight: var(--font-normal);
+    color: var(--color-text);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+.input-minimal {
+    width: 100%;
+    padding: var(--space-sm) 0;
+    font-size: var(--text-base);
+    font-weight: var(--font-light);
+    color: var(--color-text);
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid var(--color-border);
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.input-minimal::placeholder {
+    color: var(--color-text-lighter);
+    font-weight: var(--font-light);
+}
+
+.input-minimal:focus {
+    border-bottom-color: var(--color-primary);
+}
+
+select.input-minimal {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23999' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0 center;
+    padding-right: 1.5rem;
+}
+
+textarea.input-minimal {
+    resize: vertical;
+    min-height: 80px;
+    padding-top: var(--space-sm);
+}
+
+/* ========================================
+   BOTÕES MINIMALISTAS
+   ======================================== */
+
+.btn-minimal {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--text-sm);
+    font-weight: var(--font-normal);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    background: transparent;
+    border: 1px solid var(--color-text);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.btn-minimal:hover {
+    background: var(--color-text);
+    color: var(--color-bg);
+    transform: translateY(-1px);
+}
+
+.btn-minimal-primary {
+    color: var(--color-primary);
+    border-color: var(--color-primary);
+}
+
+.btn-minimal-primary:hover {
+    background: var(--color-primary);
+    color: var(--color-bg);
+}
+
+/* ========================================
+   DIVISORES SUTIS
+   ======================================== */
+
+.divider-minimal {
+    width: 60px;
+    height: 1px;
+    background: var(--color-primary);
+    margin: var(--space-md) auto;
+    opacity: 0.5;
+}
+
+/* ========================================
+   GRID RESPONSIVO
+   ======================================== */
+
+.grid-minimal {
+    display: grid;
+    gap: var(--space-lg);
+}
+
+.grid-minimal-2 {
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.grid-minimal-3 {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+/* ========================================
+   CENTRALIZAÇÃO
+   ======================================== */
+
+.center-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* ========================================
+   IMAGENS ELEGANTES
+   ======================================== */
+
+.image-minimal {
+    width: 100%;
+    height: auto;
+    display: block;
+    filter: grayscale(10%) contrast(1.05);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.image-minimal:hover {
+    filter: grayscale(0%) contrast(1.1);
+    transform: scale(1.01);
+}
+
+/* ========================================
+   ANIMAÇÕES SUTIS
+   ======================================== */
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fade-in-up {
+    animation: fadeInUp 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* ========================================
+   RESPONSIVO
+   ======================================== */
+
+@media (max-width: 768px) {
+    :root {
+        --text-3xl: 2rem;
+        --text-2xl: 1.75rem;
+        --text-xl: 1.25rem;
+        --space-2xl: 4rem;
+        --space-xl: 3rem;
+    }
+
+    .hero-minimal {
+        height: 60vh;
+        min-height: 400px;
+    }
+
+    .section-minimal {
+        padding: var(--space-xl) 0;
+    }
+
+    .container-minimal,
+    .container-narrow,
+    .container-tight {
+        padding: 0 var(--space-sm);
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --text-3xl: 1.75rem;
+        --text-2xl: 1.5rem;
+    }
+}
