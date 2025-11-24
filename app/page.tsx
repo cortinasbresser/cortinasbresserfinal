@@ -75,7 +75,7 @@ export default function Home() {
 
       {/* Formulário */}
       <section className="container-elegant py-12 text-center" id="orcamentoForm">
-        <h1 className="text-gold mb-4 reveal-on-scroll text-3xl md:text-4xl font-semibold">Orçamento Personalizado para Sua Cortina</h1>
+        <h1 className="text-gold mb-4 reveal-on-scroll text-3xl md:text-4xl font-semibold">Solicitar orçamento rápido!</h1>
         <p className="text-gold mb-8 reveal-on-scroll text-lg">Preencha o formulário e receba uma proposta exclusiva em minutos</p>
         <QuoteForm onSuccess={() => setShowModal(true)} />
       </section>
@@ -100,7 +100,7 @@ export default function Home() {
             </div>
             <h3 className="text-xl text-gold mb-4 font-medium text-center">Entrega Rápida</h3>
             <p className="text-muted font-light">
-              Compromisso com prazos e agilidade na instalação para sua total satisfação.
+              Compromisso com prazos e agilidade para sua total satisfação.
             </p>
           </div>
 
@@ -123,7 +123,7 @@ export default function Home() {
             {/* Mapa */}
             <div className="w-full h-[400px] rounded-xl overflow-hidden shadow-lg border border-[#8b7355]/30">
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.584626736663!2d-46.60998692376327!3d-23.54743946107603!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce59399b18637f%3A0x637764343334658a!2sR.%20Bresser%2C%201388%20-%20Br%C3%A1s%2C%20S%C3%A3o%20Paulo%20-%20SP%2C%2003017-000!5e0!3m2!1spt-BR!2sbr!4v1700000000000!5m2!1spt-BR!2sbr"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3657.8008784723734!2d-46.61059012467059!3d-23.539663178814713!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94ce5920ad7e2385%3A0xf691ca24cd35848b!2sCortinas%20Bresser!5e0!3m2!1spt-BR!2sbr!4v1763942963357!5m2!1spt-BR!2sbr"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -135,21 +135,22 @@ export default function Home() {
 
             {/* Informações */}
             <div className="text-[#1a1a1a]">
-              <h2 className="text-[#1a1a1a] mb-8 text-3xl font-semibold">Visite Nosso Showroom</h2>
+              <h2 className="text-[#1a1a1a] mb-8 text-3xl font-semibold">Visite nossa loja</h2>
               <div className="space-y-6 mb-8">
                 <div className="flex items-start">
                   <i className="bi bi-geo-alt-fill text-[#c9a961] text-2xl mr-4 mt-1"></i>
                   <div>
                     <h5 className="text-xl font-medium mb-1 text-[#1a1a1a]">Endereço</h5>
-                    <p className="mb-0 text-[#1a1a1a]">Rua Bresser, 1388 - Brás</p>
-                    <p className="mb-0 text-[#1a1a1a]">São Paulo - SP, 03017-000</p>
+                    <p className="mb-0 text-[#1a1a1a]">Rua Bresser, 1084 - Brás</p>
+                    <p className="mb-0 text-[#1a1a1a]">São Paulo - SP, 03053-000</p>
                   </div>
                 </div>
                 <div className="flex items-start">
                   <i className="bi bi-telephone-fill text-[#c9a961] text-2xl mr-4 mt-1"></i>
                   <div>
                     <h5 className="text-xl font-medium mb-1 text-[#1a1a1a]">Contato</h5>
-                    <p className="mb-0 text-[#1a1a1a]"><strong>Telefone:</strong> (11) 2692-5666</p>
+                    <p className="mb-0 text-[#1a1a1a]"><strong>Telefone:</strong> (11) 2692-7865</p>
+                    <p className="mb-0 text-[#1a1a1a]"><strong>WhatsApp:</strong> (11) 95661-6041</p>
                     <p className="mb-0 text-[#1a1a1a]"><strong>WhatsApp:</strong> (11) 99401-3938</p>
                   </div>
                 </div>
@@ -157,13 +158,13 @@ export default function Home() {
                   <i className="bi bi-clock-fill text-[#c9a961] text-2xl mr-4 mt-1"></i>
                   <div>
                     <h5 className="text-xl font-medium mb-1 text-[#1a1a1a]">Horário de Atendimento</h5>
-                    <p className="mb-0 text-[#1a1a1a]">Segunda a Sexta: 09:00 - 18:00</p>
-                    <p className="mb-0 text-[#1a1a1a]">Sábado: 09:00 - 14:00</p>
+                    <p className="mb-0 text-[#1a1a1a]">Segunda a Sexta: 08:00 - 17:00</p>
+                    <p className="mb-0 text-[#1a1a1a]">Sábado: 09:00 - 16:00</p>
                   </div>
                 </div>
               </div>
               <a
-                href="https://maps.google.com/?q=Rua+Bresser,+1388+-+Brás,+São+Paulo+-+SP"
+                href="https://maps.app.goo.gl/KLNdV7r5LaXRRdpY6"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="btn-gold inline-flex items-center"
