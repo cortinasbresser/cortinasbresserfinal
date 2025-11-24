@@ -6,13 +6,16 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:static": "next build && echo Build concluído! Arquivos em: ./out",
     "start": "next start",
     "lint": "next lint",
     "deploy": "npm run build && node scripts/deploy-ftp.js",
     "deploy:sync": "npm run build && node scripts/deploy-ftp-sync.js",
     "deploy:only": "node scripts/deploy-ftp.js",
     "deploy:sync-only": "node scripts/deploy-ftp-sync.js",
-    "test:ftp": "node scripts/test-ftp.js"
+    "test:ftp": "node scripts/test-ftp.js",
+    "locaweb": "npm run build:static && echo Pronto para upload! Envie a pasta 'out' via FTP",
+    "deploy:locaweb": "npm run build:static && node scripts/deploy-locaweb.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

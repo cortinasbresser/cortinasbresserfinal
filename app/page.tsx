@@ -75,7 +75,7 @@ export default function Home() {
 
       {/* Formulário */}
       <section className="container-elegant py-12 text-center" id="orcamentoForm">
-        <h1 className="text-gold mb-4 reveal-on-scroll text-3xl md:text-4xl font-semibold">Solicitar orçamento rápido!</h1>
+        <h1 className="text-gold mb-4 reveal-on-scroll text-3xl md:text-4xl font-semibold">Descubra sua cortina!</h1>
         <p className="text-gold mb-8 reveal-on-scroll text-lg">Preencha o formulário e receba uma proposta exclusiva em minutos</p>
         <QuoteForm onSuccess={() => setShowModal(true)} />
       </section>

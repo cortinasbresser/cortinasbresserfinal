@@ -1,0 +1,109 @@
+# Habilitar compressão GZIP para melhor performance
+<IfModule mod_deflate.c>
+    AddOutputFilterByType DEFLATE text/html text/plain text/xml text/css text/javascript application/javascript application/json application/xml
+</IfModule>
+
+# Cache de arquivos estáticos para melhor performance
+<IfModule mod_expires.c>
+    ExpiresActive On
+    
+    # Imagens - cache de 1 ano
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/webp "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/x-icon "access plus 1 year"
+    
+    # CSS e JavaScript - cache de 1 mês
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    
+    # Fontes - cache de 1 ano
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType application/font-woff "access plus 1 year"
+    ExpiresByType application/font-woff2 "access plus 1 year"
+    
+    # Documentos
+    ExpiresByType application/pdf "access plus 1 month"
+    
+    # HTML - sem cache
+    ExpiresByType text/html "access plus 0 seconds"
+</IfModule>
+
+# Redirecionar HTTP para HTTPS (recomendado para segurança)
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    
+    # Força HTTPS
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+    
+    # Remove .html das URLs (se necessário)
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME}\.html -f
+    RewriteRule ^(.*)$ $1.html [L]
+</IfModule>
+
+# Prevenir listagem de diretórios
+Options -Indexes
+
+# Proteção contra ataques comuns
+<IfModule mod_headers.c>
+    # Prevenir clickjacking
+    Header set X-Frame-Options "SAMEORIGIN"
+    
+    # Prevenir MIME sniffing
+    Header set X-Content-Type-Options "nosniff"
+    
+    # XSS Protection
+    Header set X-XSS-Protection "1; mode=block"
+    
+    # Referrer Policy
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # Content Security Policy (ajuste conforme necessário)
+    # Header set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline';"
+</IfModule>
+
+# Charset UTF-8 para todos os arquivos de texto
+AddDefaultCharset UTF-8
+
+# Configuração MIME types
+<IfModule mod_mime.c>
+    # JavaScript
+    AddType application/javascript js
+    AddType text/javascript js
+    
+    # JSON
+    AddType application/json json
+    
+    # Fontes
+    AddType font/woff woff
+    AddType font/woff2 woff2
+    
+    # Imagens
+    AddType image/webp webp
+    AddType image/svg+xml svg
+</IfModule>
+
+# Limitar tamanho de upload (se necessário)
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+
+# Timezone (ajuste conforme sua localização)
+php_value date.timezone "America/Sao_Paulo"
+
+# Desabilitar listagem de arquivos
+<Files .htaccess>
+    Order allow,deny
+    Deny from all
+</Files>
+
+# Proteger arquivos sensíveis
+<FilesMatch "\.(env|json|md|log)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
