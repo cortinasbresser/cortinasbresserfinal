@@ -102,9 +102,21 @@ npm start
 
 #### Environment Variables:
 ```
+
 NODE_ENV=production
 PORT=3000
+SMTP_HOST=smtp.seuprovedor.com
+SMTP_PORT=587
+SMTP_USER=seu_email@dominio.com
+SMTP_PASS=sua_senha_secreta
+RECIPIENT_EMAIL=email_destino@dominio.com
 ```
+
+#### Mounts (Volumes):
+Para salvar os PDFs gerados:
+- **Type**: Bind Mount (ou Volume)
+- **Mount Path**: `/app/quotes`
+- **Host Path**: `./quotes` (ou deixe o EasyPanel gerenciar se usar Volume)
 
 ### Passo 5: Configurar Domínio (Opcional)
 
@@ -202,7 +214,12 @@ module.exports = {
     max_memory_restart: '1G',
     env: {
       NODE_ENV: 'production',
-      PORT: 3000
+      PORT: 3000,
+      SMTP_HOST: 'smtp.seuprovedor.com',
+      SMTP_PORT: 587,
+      SMTP_USER: 'seu_email@dominio.com',
+      SMTP_PASS: 'sua_senha_secreta',
+      RECIPIENT_EMAIL: 'email_destino@dominio.com'
     }
   }]
 };

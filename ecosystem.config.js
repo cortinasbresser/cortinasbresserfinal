@@ -12,6 +12,12 @@ module.exports = {
             env: {
                 NODE_ENV: 'production',
                 PORT: 3000,
+                // Variáveis de Email (Preencha com seus dados ou use .env)
+                SMTP_HOST: process.env.SMTP_HOST,
+                SMTP_PORT: process.env.SMTP_PORT,
+                SMTP_USER: process.env.SMTP_USER,
+                SMTP_PASS: process.env.SMTP_PASS,
+                RECIPIENT_EMAIL: process.env.RECIPIENT_EMAIL,
             },
             error_file: '/var/log/pm2/cortinasbresser-error.log',
             out_file: '/var/log/pm2/cortinasbresser-out.log',

@@ -13,11 +13,17 @@ services:
     environment:
       - NODE_ENV=production
       - PORT=3000
+      - SMTP_HOST=${SMTP_HOST}
+      - SMTP_PORT=${SMTP_PORT}
+      - SMTP_USER=${SMTP_USER}
+      - SMTP_PASS=${SMTP_PASS}
+      - RECIPIENT_EMAIL=${RECIPIENT_EMAIL}
     networks:
       - app-network
     # Opcional: adicionar volume para logs
     volumes:
       - ./logs:/app/logs
+      - ./quotes:/app/quotes
   # Nginx (Opcional - para usar como reverse proxy)
   # Descomente se quiser usar Nginx na frente do Next.js
   # nginx:
