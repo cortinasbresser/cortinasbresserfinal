@@ -41,7 +41,6 @@ scripts/.deploy-cache.json
 
 
 # Local Netlify folder
-# Local Netlify folder
 .netlify
 
 # Generated Quotes

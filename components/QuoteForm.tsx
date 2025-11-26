@@ -48,6 +48,7 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
     };
 
     const onSubmit = async (data: FormData) => {
+        let emailSuccess = false;
         try {
             console.log('Iniciando envio do formulário...', data);
 
@@ -65,24 +66,26 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
                 throw new Error(result.error || 'Falha desconhecida ao enviar e-mail');
             }
 
+            emailSuccess = true;
             // Notifica sucesso (o modal será aberto pelo pai via onSuccess)
             onSuccess();
-
-            // Reseta o formulário
             reset();
-
-            // Abre WhatsApp após um pequeno delay para o modal aparecer primeiro
-            setTimeout(() => {
-                const whatsappNumber = '5511994013938';
-                const url = `https://wa.me/${whatsappNumber}?text=${gerarMensagemWhatsApp(data)}`;
-                window.open(url, '_blank');
-            }, 2000);
 
         } catch (err: any) {
             console.error('Erro detalhado no envio:', err);
             let errorMsg = err.message || 'Erro de conexão';
             if (errorMsg.includes('JSON')) errorMsg = 'Erro ao processar resposta do servidor (provável erro 500 ou 404).';
-            alert(`Não foi possível enviar sua solicitação.\n\nDetalhe do erro: ${errorMsg}\n\nPor favor, tente novamente ou contate-nos diretamente pelo WhatsApp.`);
+
+            // Mesmo com erro no email, vamos permitir ir para o WhatsApp
+            alert(`Atenção: Houve um problema ao enviar o e-mail automático (${errorMsg}).\n\nMas não se preocupe! Você será redirecionado para o WhatsApp para enviar seu orçamento diretamente.`);
+        } finally {
+            // Abre WhatsApp sempre (seja sucesso ou erro no email)
+            // Pequeno delay para garantir que o usuário veja o modal ou o alert antes
+            setTimeout(() => {
+                const whatsappNumber = '5511994013938';
+                const url = `https://wa.me/${whatsappNumber}?text=${gerarMensagemWhatsApp(data)}`;
+                window.open(url, '_blank');
+            }, emailSuccess ? 2000 : 500);
         }
     };
 
