@@ -22,10 +22,19 @@ export async function POST(request: Request) {
         const data: QuoteData = await request.json();
         console.log('API: Dados recebidos:', data);
 
+        // Debug das variáveis de ambiente
+        console.log('API: Verificando variáveis de ambiente...');
+        console.log('SMTP_HOST:', process.env.SMTP_HOST ? 'Definido' : 'Ausente');
+        console.log('SMTP_USER:', process.env.SMTP_USER ? 'Definido' : 'Ausente');
+        console.log('SMTP_PASS:', process.env.SMTP_PASS ? 'Definido (***)' : 'Ausente');
+
         // Validação básica de variáveis de ambiente
         if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
             console.error('API Error: Variáveis de ambiente SMTP não configuradas.');
-            return NextResponse.json({ success: false, error: 'Configuração de servidor de e-mail ausente.' }, { status: 500 });
+            return NextResponse.json({
+                success: false,
+                error: 'Configuração de servidor de e-mail ausente. Verifique os logs do servidor.'
+            }, { status: 500 });
         }
 
         // 1. Gerar PDF (com fallback para não impedir o envio do email)
