@@ -1,4 +1,4 @@
-import { generateQuotePdf } from './lib/generateQuotePdf.ts';
+import { generateQuotePdf } from './lib/generateQuotePdf';
 import fs from 'fs';
 
 async function test() {
