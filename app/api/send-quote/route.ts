@@ -74,6 +74,9 @@ export async function POST(request: Request) {
                 user: process.env.SMTP_USER,
                 pass: process.env.SMTP_PASS,
             },
+            tls: {
+                rejectUnauthorized: false
+            }
         });
 
         // 5. Enviar e-mail com anexo
