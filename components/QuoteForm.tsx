@@ -80,7 +80,9 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
 
         } catch (err: any) {
             console.error('Erro detalhado no envio:', err);
-            alert(`Não foi possível enviar sua solicitação.\nErro: ${err.message || 'Erro de conexão'}\n\nPor favor, tente novamente ou contate-nos diretamente pelo WhatsApp.`);
+            let errorMsg = err.message || 'Erro de conexão';
+            if (errorMsg.includes('JSON')) errorMsg = 'Erro ao processar resposta do servidor (provável erro 500 ou 404).';
+            alert(`Não foi possível enviar sua solicitação.\n\nDetalhe do erro: ${errorMsg}\n\nPor favor, tente novamente ou contate-nos diretamente pelo WhatsApp.`);
         }
     };
 
