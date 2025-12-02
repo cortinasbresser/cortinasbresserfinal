@@ -27,6 +27,7 @@ export async function POST(request: Request) {
         console.log('SMTP_HOST:', process.env.SMTP_HOST ? 'Definido' : 'Ausente');
         console.log('SMTP_USER:', process.env.SMTP_USER ? 'Definido' : 'Ausente');
         console.log('SMTP_PASS:', process.env.SMTP_PASS ? 'Definido (***)' : 'Ausente');
+        console.log('RECIPIENT_EMAIL:', process.env.RECIPIENT_EMAIL ? 'Definido' : 'Ausente (Usando SMTP_USER)');
 
         // Validação básica de variáveis de ambiente
         if (!process.env.SMTP_HOST || !process.env.SMTP_USER || !process.env.SMTP_PASS) {
@@ -51,17 +52,24 @@ export async function POST(request: Request) {
         if (pdfBuffer) {
             try {
                 const quotesDir = path.join(process.cwd(), 'quotes');
+                // Tenta criar diretório apenas se possível
                 if (!fs.existsSync(quotesDir)) {
-                    fs.mkdirSync(quotesDir, { recursive: true });
+                    try {
+                        fs.mkdirSync(quotesDir, { recursive: true });
+                    } catch (mkdirError) {
+                        console.warn('API Warning: Não foi possível criar diretório quotes:', mkdirError);
+                    }
                 }
 
-                const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
-                const safeName = data.nome.replace(/[^a-z0-9]/gi, '_').toLowerCase();
-                const fileName = `orcamento_${safeName}_${timestamp}.pdf`;
-                const filePath = path.join(quotesDir, fileName);
+                if (fs.existsSync(quotesDir)) {
+                    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+                    const safeName = data.nome.replace(/[^a-z0-9]/gi, '_').toLowerCase();
+                    const fileName = `orcamento_${safeName}_${timestamp}.pdf`;
+                    const filePath = path.join(quotesDir, fileName);
 
-                fs.writeFileSync(filePath, pdfBuffer);
-                console.log('API: PDF salvo localmente em:', filePath);
+                    fs.writeFileSync(filePath, pdfBuffer);
+                    console.log('API: PDF salvo localmente em:', filePath);
+                }
             } catch (fileError) {
                 console.error('API Warning: Não foi possível salvar o PDF localmente:', fileError);
             }
@@ -93,14 +101,19 @@ export async function POST(request: Request) {
             },
             tls: {
                 rejectUnauthorized: false
-            }
+            },
+            debug: true, // Habilita logs detalhados do SMTP
+            logger: true // Loga no console
         });
 
         // 5. Enviar e-mail (com ou sem anexo)
         console.log('API: Tentando enviar e-mail...');
+
+        const recipient = process.env.RECIPIENT_EMAIL || process.env.SMTP_USER;
+
         const mailOptions: any = {
             from: `"Cortinas Bresser" <${process.env.SMTP_USER}>`,
-            to: process.env.RECIPIENT_EMAIL,
+            to: recipient,
             subject: `Nova solicitação de orçamento: ${data.nome}`,
             html: mensagem,
         };
@@ -115,12 +128,16 @@ export async function POST(request: Request) {
             ];
         }
 
-        await transporter.sendMail(mailOptions);
-        console.log('API: E-mail enviado com sucesso!');
+        const info = await transporter.sendMail(mailOptions);
+        console.log('API: E-mail enviado com sucesso! MessageID:', info.messageId);
 
-        return NextResponse.json({ success: true });
-    } catch (error) {
+        return NextResponse.json({ success: true, messageId: info.messageId });
+    } catch (error: any) {
         console.error('API Error: Erro ao processar solicitação de orçamento:', error);
-        return NextResponse.json({ success: false, error: (error as Error).message }, { status: 500 });
+        return NextResponse.json({
+            success: false,
+            error: error.message || 'Erro interno no servidor',
+            details: error.toString()
+        }, { status: 500 });
     }
 }
