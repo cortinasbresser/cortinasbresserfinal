@@ -11,8 +11,7 @@ async function test() {
             altura_parede: '2.50',
             tecido: 'Voil',
             instalacao: 'Trilho',
-            observacoes: 'Teste de observação',
-            endereco: 'Rua Teste, 123'
+            observacoes: 'Teste de observação'
         };
 
         const buffer = await generateQuotePdf(data);
