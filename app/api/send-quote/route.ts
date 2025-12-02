@@ -4,6 +4,10 @@ import nodemailer from 'nodemailer';
 import { generateQuotePdf } from '@/lib/generateQuotePdf';
 import fs from 'fs';
 import path from 'path';
+import dotenv from 'dotenv';
+
+// Tenta carregar variáveis de ambiente de um arquivo .env local (fallback)
+dotenv.config();
 
 type QuoteData = {
     nome: string;
@@ -34,7 +38,7 @@ export async function POST(request: Request) {
             console.error('API Error: Variáveis de ambiente SMTP não configuradas.');
             return NextResponse.json({
                 success: false,
-                error: 'Configuração de servidor de e-mail ausente. Verifique os logs do servidor.'
+                error: 'ERRO DE CONFIGURAÇÃO: Variáveis SMTP ausentes no EasyPanel. Verifique CONFIGURAR-EASYPANEL.md.'
             }, { status: 500 });
         }
 
