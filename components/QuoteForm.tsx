@@ -12,7 +12,6 @@ const schema = z.object({
     tecido: z.enum(['Voil', 'Linho', 'Blackout', 'Outros']),
     instalacao: z.enum(['Trilho', 'Varão', 'Não sei']),
     observacoes: z.string().optional(),
-    endereco: z.string().optional(),
 });
 
 type FormData = z.infer<typeof schema>;
@@ -41,7 +40,6 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
         mensagem += `*Especificações:*%0A`;
         mensagem += `Tecido: ${data.tecido}%0A`;
         mensagem += `Instalação: ${data.instalacao}%0A%0A`;
-        if (data.endereco) mensagem += `*Endereço:*%0A${data.endereco}%0A%0A`;
         if (data.observacoes) mensagem += `*Observações:*%0A${data.observacoes}%0A%0A`;
         mensagem += `_Enviado via site Cortinas Bresser_`;
         return mensagem;
@@ -171,12 +169,6 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
             <div className="mb-3">
                 <label htmlFor="observacoes" className="form-label-elegant">Observações adicionais</label>
                 <textarea className="form-control-elegant" id="observacoes" {...register('observacoes')} rows={2} placeholder="Cor preferida, tipo de ambiente, etc." maxLength={500} />
-            </div>
-
-            {/* Endereço */}
-            <div className="mb-3">
-                <label htmlFor="endereco" className="form-label-elegant">Endereço para instalação (opcional)</label>
-                <textarea className="form-control-elegant" id="endereco" {...register('endereco')} rows={2} placeholder="Rua, número, bairro, cidade..." maxLength={300} />
             </div>
 
             {/* Botão Submit */}

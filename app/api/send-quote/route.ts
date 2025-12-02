@@ -17,7 +17,6 @@ type QuoteData = {
     tecido: string;
     instalacao: string;
     observacoes?: string;
-    endereco?: string;
 };
 
 export async function POST(request: Request) {
@@ -90,7 +89,6 @@ export async function POST(request: Request) {
       <p><strong>Parede:</strong> ${data.parede}m (largura) x ${data.altura_parede}m (altura)</p>
       <p><strong>Tecido:</strong> ${data.tecido}</p>
       <p><strong>Instalação:</strong> ${data.instalacao}</p>
-      ${data.endereco ? `<p><strong>Endereço:</strong> ${data.endereco}</p>` : ''}
       ${data.observacoes ? `<p><strong>Observações:</strong> ${data.observacoes}</p>` : ''}
     `;
 

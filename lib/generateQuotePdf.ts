@@ -8,7 +8,6 @@ interface QuoteData {
     tecido: string;
     instalacao: string;
     observacoes?: string;
-    endereco?: string;
 }
 
 export async function generateQuotePdf(data: QuoteData): Promise<Buffer> {
@@ -56,10 +55,6 @@ export async function generateQuotePdf(data: QuoteData): Promise<Buffer> {
             `Tecido Escolhido: ${data.tecido}`,
             `Tipo de Instalação: ${data.instalacao}`
         ]);
-
-        if (data.endereco) {
-            addSection('Endereço de Instalação', [data.endereco]);
-        }
 
         if (data.observacoes) {
             addSection('Observações', [data.observacoes]);
