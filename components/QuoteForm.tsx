@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { trackFormSubmission, trackFormStart, trackFormError, trackWhatsAppClick } from '@/lib/tracking';
 
 // Schema de validação usando Zod
 const schema = z.object({
@@ -21,6 +22,8 @@ interface QuoteFormProps {
 }
 
 export default function QuoteForm({ onSuccess }: QuoteFormProps) {
+    const [formStarted, setFormStarted] = useState(false);
+
     const {
         register,
         handleSubmit,
@@ -65,14 +68,26 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
             }
 
             emailSuccess = true;
+
+            // 🎯 RASTREAMENTO: Conversão bem-sucedida
+            trackFormSubmission({
+                nome: data.nome,
+                telefone: data.telefone,
+                tecido: data.tecido
+            });
+
             // Notifica sucesso (o modal será aberto pelo pai via onSuccess)
             onSuccess();
             reset();
+            setFormStarted(false);
 
         } catch (err: any) {
             console.error('Erro detalhado no envio:', err);
             let errorMsg = err.message || 'Erro de conexão';
             if (errorMsg.includes('JSON')) errorMsg = 'Erro ao processar resposta do servidor (provável erro 500 ou 404).';
+
+            // 🎯 RASTREAMENTO: Erro no formulário
+            trackFormError(errorMsg);
 
             // Mesmo com erro no email, vamos permitir ir para o WhatsApp
             alert(`Atenção: Houve um problema ao enviar o e-mail automático (${errorMsg}).\n\nMas não se preocupe! Você será redirecionado para o WhatsApp para enviar seu orçamento diretamente.`);
@@ -80,6 +95,9 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
             // Abre WhatsApp sempre (seja sucesso ou erro no email)
             // Pequeno delay para garantir que o usuário veja o modal ou o alert antes
             setTimeout(() => {
+                // 🎯 RASTREAMENTO: Clique no WhatsApp
+                trackWhatsAppClick('form');
+
                 const whatsappNumber = '5511994013938';
                 const url = `https://wa.me/${whatsappNumber}?text=${gerarMensagemWhatsApp(data)}`;
                 window.open(url, '_blank');
@@ -110,8 +128,21 @@ export default function QuoteForm({ onSuccess }: QuoteFormProps) {
         });
     }, []);
 
+    // Rastreia quando usuário começa a preencher o formulário
+    const handleFormFocus = () => {
+        if (!formStarted) {
+            setFormStarted(true);
+            trackFormStart();
+        }
+    };
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)} className="mx-auto text-start card-elegant p-4" style={{ maxWidth: '600px' }}>
+        <form
+            onSubmit={handleSubmit(onSubmit)}
+            onFocus={handleFormFocus}
+            className="mx-auto text-start card-elegant p-4"
+            style={{ maxWidth: '600px' }}
+        >
             {/* Nome */}
             <div className="mb-3">
                 <label htmlFor="nome" className="form-label-elegant">Qual seu nome? *</label>

@@ -1,21 +1,47 @@
 import { Metadata } from 'next';
 
 export const siteMetadata = {
-    title: 'Cortinas Bresser - Cortinas Sob Medida Premium em São Paulo',
-    description: 'Transforme seu ambiente com cortinas sob medida de alta qualidade. Tecidos premium (blackout, voil, linho), instalação profissional e orçamento em minutos. Atendemos toda São Paulo.',
+    title: 'Cortinas Sob Medida SP | Cortinas Bresser - Orçamento Grátis',
+    description: 'Cortinas sob medida em São Paulo com instalação grátis! Blackout, voil, linho e mais. Confecção própria, entrega rápida e preço justo. Solicite orçamento grátis pelo WhatsApp. Atendemos toda SP.',
     keywords: [
+        // Keywords principais (high intent)
         'cortinas sob medida',
+        'cortinas sob medida são paulo',
+        'cortinas sob medida sp',
         'cortinas personalizadas',
         'cortinas blackout',
+        'cortinas blackout sob medida',
+
+        // Long-tail keywords (conversão)
+        'orçamento cortinas são paulo',
+        'cortinas sob medida com instalação',
+        'cortinas sob medida preço',
+        'cortinas sob medida baratas',
+        'onde comprar cortinas sob medida sp',
+
+        // Localização
         'cortinas são paulo',
         'cortinas brás',
-        'decoração cortinas',
-        'instalação profissional cortinas',
-        'cortinas premium',
-        'cortinas elegantes',
+        'cortinas zona leste sp',
+        'cortinas sp capital',
+
+        // Tipos de tecido
         'cortinas voil',
         'cortinas linho',
-        'cortinas seda'
+        'cortinas veludo',
+        'cortinas seda',
+
+        // Serviços
+        'instalação cortinas são paulo',
+        'confecção cortinas sob medida',
+        'cortinas com instalação grátis',
+        'cortinas entrega rápida',
+
+        // Decoração
+        'decoração cortinas',
+        'cortinas elegantes',
+        'cortinas premium',
+        'cortinas de luxo'
     ],
     author: 'Cortinas Bresser',
     siteUrl: 'https://www.cortinasbresser.com.br',

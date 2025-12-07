@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Leads</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>Painel Administrativo</h1>
+        <p>Gerenciamento de Leads</p>
+    </header>
+
+    <div class="container admin-container">
+        <div class="admin-header">
+            <h2>Leads Recentes</h2>
+            <a href="{{ url_for('export_pdf') }}" class="btn-download" style="margin-top: 0;">Exportar Relatório PDF</a>
+        </div>
+
+        <div class="card" style="padding: 1rem;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Data</th>
+                        <th>Nome</th>
+                        <th>Telefone</th>
+                        <th>Tecido</th>
+                        <th>Ações</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for lead in leads %}
+                    <tr>
+                        <td>{{ lead.id }}</td>
+                        <td>{{ lead.criado_em.strftime('%d/%m/%Y %H:%M') }}</td>
+                        <td>{{ lead.nome }}</td>
+                        <td>{{ lead.telefone }}</td>
+                        <td>{{ lead.tecido }}</td>
+                        <td>
+                            <a href="{{ generate_whatsapp_link(lead) }}" target="_blank" class="btn-whatsapp">
+                                <span>WhatsApp</span>
+                            </a>
+                            <a href="{{ url_for('download_pdf', lead_id=lead.id) }}"
+                                style="margin-left: 10px; color: var(--primary-color);">PDF</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="6" style="text-align: center;">Nenhum lead encontrado.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

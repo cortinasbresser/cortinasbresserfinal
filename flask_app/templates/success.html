@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sucesso - Cortinas Bresser</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <header>
+        <h1>Cortinas Bresser</h1>
+    </header>
+
+    <div class="container">
+        <div class="card success-message">
+            <div class="success-icon">✓</div>
+            <h2>Orçamento Enviado com Sucesso!</h2>
+            <p>Obrigado, <strong>{{ lead.nome }}</strong>. Recebemos seus dados e entraremos em contato em breve.</p>
+            <p>Uma cópia do orçamento foi enviada para seu e-mail (se fornecido).</p>
+
+            <a href="{{ url_for('download_pdf', lead_id=lead.id) }}" class="btn-download">Baixar PDF do Orçamento</a>
+
+            <br><br>
+            <a href="{{ url_for('index') }}" style="color: var(--primary-color); text-decoration: none;">Voltar para o
+                início</a>
+        </div>
+    </div>
+</body>
+
+</html>
