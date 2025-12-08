@@ -79,7 +79,7 @@ export const siteMetadata = {
         {
             days: ['Saturday'],
             opens: '09:00',
-            closes: '16:00'
+            closes: '15:30'
         }
     ],
 

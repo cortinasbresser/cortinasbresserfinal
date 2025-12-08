@@ -160,7 +160,7 @@ export default function Home() {
                   <div>
                     <h5 className="text-xl font-medium mb-1 text-[#1a1a1a]">Horário de Atendimento</h5>
                     <p className="mb-0 text-[#1a1a1a]">Segunda a Sexta: 08:00 - 17:00</p>
-                    <p className="mb-0 text-[#1a1a1a]">Sábado: 09:00 - 16:00</p>
+                    <p className="mb-0 text-[#1a1a1a]">Sábado: 09:00 - 15:30</p>
                   </div>
                 </div>
               </div>
