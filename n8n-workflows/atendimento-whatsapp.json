@@ -1,0 +1,267 @@
+{
+    "name": "Atendimento WhatsApp - Cortinas Bresser",
+    "nodes": [
+        {
+            "parameters": {
+                "httpMethod": "POST",
+                "path": "whatsapp",
+                "responseMode": "responseNode",
+                "options": {}
+            },
+            "id": "webhook-whatsapp",
+            "name": "Webhook WhatsApp",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                250,
+                300
+            ],
+            "webhookId": "whatsapp-cortinas"
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "string": [
+                        {
+                            "value1": "={{$json.body.event}}",
+                            "operation": "equals",
+                            "value2": "messages.upsert"
+                        }
+                    ]
+                }
+            },
+            "id": "filter-messages",
+            "name": "Filtrar Mensagens",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 1,
+            "position": [
+                450,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "functionCode": "// Extrair dados da mensagem\nconst message = $input.item.json.body.data;\nconst from = message.key.remoteJid;\nconst text = message.message?.conversation || \n             message.message?.extendedTextMessage?.text || '';\n\n// Detectar intenção\nlet intent = 'outros';\nlet response = '';\n\nconst textLower = text.toLowerCase();\n\nif (textLower.includes('orçamento') || textLower.includes('orcamento')) {\n  intent = 'orcamento';\n  response = `Olá! 👋\\n\\nFico feliz em ajudar com seu orçamento!\\n\\nPara fazer um orçamento personalizado, preciso de algumas informações:\\n\\n1️⃣ Qual tipo de tecido você prefere?\\n• Blackout\\n• Voil\\n• Linho\\n• Veludo\\n• Não sei\\n\\nPor favor, me diga qual opção você prefere! 😊`;\n} \nelse if (textLower.includes('preço') || textLower.includes('preco') || textLower.includes('valor')) {\n  intent = 'preco';\n  response = `💰 *Nossos Preços*\\n\\nNossos valores variam de acordo com:\\n• Tipo de tecido escolhido\\n• Tamanho da cortina\\n• Tipo de instalação\\n\\nPara um orçamento exato, responda:\\n\"Quero um orçamento\"\\n\\nOu ligue: (11) 2692-7865\\n\\n✨ Instalação GRÁTIS em todos os orçamentos!`;\n}\nelse if (textLower.includes('prazo') || textLower.includes('entrega') || textLower.includes('demora')) {\n  intent = 'prazo';\n  response = `🚚 *Prazos de Entrega*\\n\\n• Confecção: 7 a 10 dias úteis\\n• Instalação: Agendamos conforme sua disponibilidade\\n\\n✅ Trabalhamos com confecção própria\\n✅ Instalação GRÁTIS incluída\\n\\nGostaria de fazer um orçamento?`;\n}\nelse if (textLower.includes('instalação') || textLower.includes('instalacao') || textLower.includes('instalar')) {\n  intent = 'instalacao';\n  response = `🔧 *Instalação*\\n\\n✅ A instalação é TOTALMENTE GRÁTIS!\\n✅ Incluída em todos os orçamentos\\n✅ Feita por profissionais experientes\\n\\nTipos de instalação disponíveis:\\n• Trilho\\n• Varão\\n• Trilho Motorizado\\n\\nQuer fazer um orçamento?`;\n}\nelse if (textLower.includes('horário') || textLower.includes('horario') || textLower.includes('funciona')) {\n  intent = 'horario';\n  response = `🕐 *Horário de Atendimento*\\n\\n📍 Loja Física:\\nSegunda a Sexta: 9h às 18h\\nSábado: 9h às 13h\\n\\n📱 WhatsApp:\\nSegunda a Sexta: 9h às 18h\\n\\n📧 Email (24h):\\nloja@cortinasbresser.com.br\\n\\nComo posso ajudar?`;\n}\nelse if (textLower.includes('endereço') || textLower.includes('endereco') || textLower.includes('localização') || textLower.includes('onde')) {\n  intent = 'endereco';\n  response = `📍 *Nossa Localização*\\n\\nRua Bresser, 1084\\nBrás - São Paulo - SP\\nCEP: 03162-030\\n\\n🚇 Metrô mais próximo:\\nEstação Bresser (Linha 3 - Vermelha)\\n\\n🚗 Estacionamento disponível\\n\\nVenha nos visitar! 😊`;\n}\nelse if (textLower.includes('tecido') || textLower.includes('tipo') || textLower.includes('modelo')) {\n  intent = 'tecidos';\n  response = `🎨 *Tipos de Tecido*\\n\\nTrabalhamos com:\\n\\n🌙 *Blackout*\\n• Bloqueia 100% da luz\\n• Ideal para quartos\\n\\n🌫️ *Voil*\\n• Leve e translúcido\\n• Deixa luz natural passar\\n\\n🌾 *Linho*\\n• Elegante e sofisticado\\n• Várias cores disponíveis\\n\\n✨ *Veludo*\\n• Luxuoso e confortável\\n• Ótimo isolamento térmico\\n\\nQual te interessa mais?`;\n}\nelse if (textLower.includes('oi') || textLower.includes('olá') || textLower.includes('ola') || textLower.includes('bom dia') || textLower.includes('boa tarde') || textLower.includes('boa noite')) {\n  intent = 'saudacao';\n  response = `Olá! 👋 Bem-vindo à *Cortinas Bresser*!\\n\\nSou o assistente virtual e estou aqui para ajudar! 😊\\n\\nComo posso te ajudar hoje?\\n\\n• 🛍️ Fazer um orçamento\\n• 💰 Consultar preços\\n• 🚚 Informações sobre prazos\\n• 📏 Tipos de tecido\\n• 📍 Nossa localização\\n\\nDigite sua dúvida ou escolha uma opção!`;\n}\nelse {\n  intent = 'outros';\n  response = `Desculpe, não entendi sua mensagem. 😅\\n\\nPosso ajudar com:\\n\\n• 🛍️ Orçamentos\\n• 💰 Preços\\n• 🚚 Prazos de entrega\\n• 📏 Tipos de tecido\\n• 📍 Localização\\n• 🕐 Horário de atendimento\\n\\nOu se preferir, fale com um atendente:\\n📞 (11) 2692-7865`;\n}\n\nreturn {\n  json: {\n    from: from,\n    text: text,\n    intent: intent,\n    response: response,\n    timestamp: new Date().toISOString()\n  }\n};"
+            },
+            "id": "detect-intent",
+            "name": "Detectar Intenção",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 1,
+            "position": [
+                650,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "url": "={{$env.EVOLUTION_API_URL}}/message/sendText/{{$env.WHATSAPP_INSTANCE_NAME}}",
+                "authentication": "genericCredentialType",
+                "genericAuthType": "httpHeaderAuth",
+                "sendHeaders": true,
+                "headerParameters": {
+                    "parameters": [
+                        {
+                            "name": "apikey",
+                            "value": "={{$env.EVOLUTION_API_KEY}}"
+                        }
+                    ]
+                },
+                "sendBody": true,
+                "bodyParameters": {
+                    "parameters": [
+                        {
+                            "name": "number",
+                            "value": "={{$json.from}}"
+                        },
+                        {
+                            "name": "text",
+                            "value": "={{$json.response}}"
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "send-response",
+            "name": "Enviar Resposta",
+            "type": "n8n-nodes-base.httpRequest",
+            "typeVersion": 3,
+            "position": [
+                850,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "operation": "insert",
+                "schema": "public",
+                "table": "leads",
+                "columns": "telefone, mensagem, intencao, timestamp",
+                "additionalFields": {}
+            },
+            "id": "save-lead",
+            "name": "Salvar Lead",
+            "type": "n8n-nodes-base.postgres",
+            "typeVersion": 1,
+            "position": [
+                850,
+                500
+            ],
+            "credentials": {
+                "postgres": {
+                    "id": "1",
+                    "name": "PostgreSQL account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "conditions": {
+                    "string": [
+                        {
+                            "value1": "={{$json.intent}}",
+                            "operation": "equals",
+                            "value2": "orcamento"
+                        }
+                    ]
+                }
+            },
+            "id": "check-orcamento",
+            "name": "É Orçamento?",
+            "type": "n8n-nodes-base.if",
+            "typeVersion": 1,
+            "position": [
+                1050,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "fromEmail": "loja@cortinasbresser.com.br",
+                "toEmail": "loja@cortinasbresser.com.br",
+                "subject": "🔔 Novo Lead - Orçamento WhatsApp",
+                "text": "=Novo lead solicitou orçamento via WhatsApp!\n\nTelefone: {{$json.from}}\nMensagem: {{$json.text}}\nHorário: {{$json.timestamp}}\n\nResponda o mais rápido possível!",
+                "options": {}
+            },
+            "id": "notify-email",
+            "name": "Notificar por Email",
+            "type": "n8n-nodes-base.emailSend",
+            "typeVersion": 2,
+            "position": [
+                1250,
+                200
+            ],
+            "credentials": {
+                "smtp": {
+                    "id": "2",
+                    "name": "SMTP account"
+                }
+            }
+        },
+        {
+            "parameters": {
+                "respondWith": "json",
+                "responseBody": "={{ { \"success\": true, \"message\": \"Mensagem processada\" } }}"
+            },
+            "id": "response",
+            "name": "Response",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                1450,
+                300
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook WhatsApp": {
+            "main": [
+                [
+                    {
+                        "node": "Filtrar Mensagens",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Filtrar Mensagens": {
+            "main": [
+                [
+                    {
+                        "node": "Detectar Intenção",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Detectar Intenção": {
+            "main": [
+                [
+                    {
+                        "node": "Enviar Resposta",
+                        "type": "main",
+                        "index": 0
+                    },
+                    {
+                        "node": "Salvar Lead",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Enviar Resposta": {
+            "main": [
+                [
+                    {
+                        "node": "É Orçamento?",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "É Orçamento?": {
+            "main": [
+                [
+                    {
+                        "node": "Notificar por Email",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Notificar por Email": {
+            "main": [
+                [
+                    {
+                        "node": "Response",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Salvar Lead": {
+            "main": [
+                [
+                    {
+                        "node": "Response",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    },
+    "settings": {
+        "executionOrder": "v1"
+    },
+    "staticData": null,
+    "tags": [],
+    "triggerCount": 1,
+    "updatedAt": "2025-12-07T23:59:00.000Z",
+    "versionId": "1"
+}

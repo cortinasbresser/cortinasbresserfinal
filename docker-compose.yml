@@ -1,7 +1,9 @@
 version: '3.8'
 
 services:
-  # Aplicação Next.js
+  # ==============================================
+  # Aplicação Next.js Principal
+  # ==============================================
   cortinasbresser:
     build:
       context: .
@@ -18,14 +20,228 @@ services:
       - SMTP_USER=${SMTP_USER}
       - SMTP_PASS=${SMTP_PASS}
       - RECIPIENT_EMAIL=${RECIPIENT_EMAIL}
+      - N8N_WEBHOOK_URL=${N8N_WEBHOOK_URL}
     networks:
       - app-network
-    # Opcional: adicionar volume para logs
     volumes:
       - ./logs:/app/logs
       - ./quotes:/app/quotes
-  # Nginx (Opcional - para usar como reverse proxy)
-  # Descomente se quiser usar Nginx na frente do Next.js
+    depends_on:
+      - postgres
+      - redis
+
+  # ==============================================
+  # PostgreSQL - Banco de Dados do N8N
+  # ==============================================
+  postgres:
+    image: postgres:15-alpine
+    container_name: cortinasbresser-postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-n8n}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-n8n_password}
+      - POSTGRES_DB=${POSTGRES_DB:-n8n}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app-network
+    healthcheck:
+      test: [ 'CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-n8n}' ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==============================================
+  # Redis - Cache e Sessões
+  # ==============================================
+  redis:
+    image: redis:7-alpine
+    container_name: cortinasbresser-redis
+    restart: unless-stopped
+    command: redis-server --requirepass ${REDIS_PASSWORD:-redis_password}
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+    healthcheck:
+      test: [ 'CMD', 'redis-cli', 'ping' ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==============================================
+  # N8N - Automação de Workflows
+  # ==============================================
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: cortinasbresser-n8n
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      # Configurações Básicas
+      - N8N_HOST=${N8N_HOST:-n8n.cortinasbresser.com.br}
+      - N8N_PORT=5678
+      - N8N_PROTOCOL=${N8N_PROTOCOL:-https}
+      - NODE_ENV=production
+      - WEBHOOK_URL=${N8N_WEBHOOK_URL:-https://n8n.cortinasbresser.com.br}
+
+      # Autenticação
+      - N8N_BASIC_AUTH_ACTIVE=${N8N_BASIC_AUTH_ACTIVE:-true}
+      - N8N_BASIC_AUTH_USER=${N8N_BASIC_AUTH_USER:-admin}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_BASIC_AUTH_PASSWORD:-change_me}
+
+      # Banco de Dados PostgreSQL
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=${POSTGRES_DB:-n8n}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER:-n8n}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD:-n8n_password}
+
+      # Criptografia
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY:-your_encryption_key_here}
+
+      # Execução
+      - EXECUTIONS_MODE=queue
+      - QUEUE_BULL_REDIS_HOST=redis
+      - QUEUE_BULL_REDIS_PORT=6379
+      - QUEUE_BULL_REDIS_PASSWORD=${REDIS_PASSWORD:-redis_password}
+
+      # Timezone
+      - GENERIC_TIMEZONE=America/Sao_Paulo
+      - TZ=America/Sao_Paulo
+
+      # Logs
+      - N8N_LOG_LEVEL=info
+      - N8N_LOG_OUTPUT=console,file
+
+      # Segurança
+      - N8N_SECURE_COOKIE=true
+
+    volumes:
+      - n8n_data:/home/node/.n8n
+      - ./n8n-backups:/backups
+    networks:
+      - app-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ 'CMD-SHELL', 'wget --spider -q http://localhost:5678/healthz || exit 1' ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ==============================================
+  # Evolution API - WhatsApp Gateway
+  # ==============================================
+  evolution-api:
+    image: atendai/evolution-api:latest
+    container_name: cortinasbresser-evolution
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      # Server
+      - SERVER_TYPE=http
+      - SERVER_PORT=8080
+      - SERVER_URL=${EVOLUTION_API_URL:-https://evolution.cortinasbresser.com.br}
+
+      # Autenticação
+      - AUTHENTICATION_TYPE=apikey
+      - AUTHENTICATION_API_KEY=${EVOLUTION_API_KEY:-your_evolution_api_key}
+      - AUTHENTICATION_EXPOSE_IN_FETCH_INSTANCES=true
+
+      # Database (PostgreSQL)
+      - DATABASE_ENABLED=true
+      - DATABASE_PROVIDER=postgresql
+      - DATABASE_CONNECTION_URI=postgresql://${POSTGRES_USER:-n8n}:${POSTGRES_PASSWORD:-n8n_password}@postgres:5432/evolution
+      - DATABASE_SAVE_DATA_INSTANCE=true
+      - DATABASE_SAVE_DATA_NEW_MESSAGE=true
+      - DATABASE_SAVE_MESSAGE_UPDATE=true
+      - DATABASE_SAVE_DATA_CONTACTS=true
+      - DATABASE_SAVE_DATA_CHATS=true
+
+      # Redis
+      - REDIS_ENABLED=true
+      - REDIS_URI=redis://:${REDIS_PASSWORD:-redis_password}@redis:6379
+      - REDIS_PREFIX_KEY=evolution
+
+      # Webhook
+      - WEBHOOK_GLOBAL_URL=${N8N_WEBHOOK_URL:-https://n8n.cortinasbresser.com.br/webhook/whatsapp}
+      - WEBHOOK_GLOBAL_ENABLED=true
+      - WEBHOOK_GLOBAL_WEBHOOK_BY_EVENTS=true
+
+      # QR Code
+      - QRCODE_LIMIT=30
+      - QRCODE_COLOR=#198754
+
+      # Logs
+      - LOG_LEVEL=ERROR,WARN,DEBUG,INFO,LOG,VERBOSE,DARK,WEBHOOKS
+      - LOG_COLOR=true
+      - LOG_BAILEYS=error
+
+      # Timezone
+      - TZ=America/Sao_Paulo
+
+      # Configurações do WhatsApp
+      - CONFIG_SESSION_PHONE_CLIENT=Cortinas Bresser
+      - CONFIG_SESSION_PHONE_NAME=Chrome
+
+    volumes:
+      - evolution_instances:/evolution/instances
+      - evolution_store:/evolution/store
+    networks:
+      - app-network
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [ 'CMD-SHELL', 'curl -f http://localhost:8080/health || exit 1' ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ==============================================
+  # N8N Worker (Opcional - para processar filas)
+  # ==============================================
+  n8n-worker:
+    image: n8nio/n8n:latest
+    container_name: cortinasbresser-n8n-worker
+    restart: unless-stopped
+    command: worker
+    environment:
+      # Mesmas configurações do N8N principal
+      - DB_TYPE=postgresdb
+      - DB_POSTGRESDB_HOST=postgres
+      - DB_POSTGRESDB_PORT=5432
+      - DB_POSTGRESDB_DATABASE=${POSTGRES_DB:-n8n}
+      - DB_POSTGRESDB_USER=${POSTGRES_USER:-n8n}
+      - DB_POSTGRESDB_PASSWORD=${POSTGRES_PASSWORD:-n8n_password}
+      - N8N_ENCRYPTION_KEY=${N8N_ENCRYPTION_KEY:-your_encryption_key_here}
+      - EXECUTIONS_MODE=queue
+      - QUEUE_BULL_REDIS_HOST=redis
+      - QUEUE_BULL_REDIS_PORT=6379
+      - QUEUE_BULL_REDIS_PASSWORD=${REDIS_PASSWORD:-redis_password}
+      - GENERIC_TIMEZONE=America/Sao_Paulo
+      - TZ=America/Sao_Paulo
+    volumes:
+      - n8n_data:/home/node/.n8n
+    networks:
+      - app-network
+    depends_on:
+      - n8n
+      - postgres
+      - redis
+  # ==============================================
+  # Nginx (Opcional - Reverse Proxy)
+  # Descomente se quiser usar Nginx
+  # ==============================================
   # nginx:
   #   image: nginx:alpine
   #   container_name: cortinasbresser-nginx
@@ -38,9 +254,29 @@ services:
   #     - ./ssl:/etc/nginx/ssl:ro
   #   depends_on:
   #     - cortinasbresser
+  #     - n8n
+  #     - evolution-api
   #   networks:
   #     - app-network
 
+  # ==============================================
+  # Volumes Persistentes
+  # ==============================================
+volumes:
+  postgres_data:
+    driver: local
+  redis_data:
+    driver: local
+  n8n_data:
+    driver: local
+  evolution_instances:
+    driver: local
+  evolution_store:
+    driver: local
+
+# ==============================================
+# Rede
+# ==============================================
 networks:
   app-network:
     driver: bridge

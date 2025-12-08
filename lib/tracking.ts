@@ -196,6 +196,82 @@ export const trackModalView = (modalType: string) => {
     }
 };
 
+/**
+ * Rastreia abertura do widget de chat do WhatsApp
+ */
+export const trackChatWidgetOpen = () => {
+    if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'chat_widget_open', {
+            'event_category': 'engagement',
+            'event_label': 'Widget WhatsApp Aberto',
+            'value': 1
+        });
+    }
+
+    if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('trackCustom', 'ChatWidgetOpen');
+    }
+
+    console.log('✅ Abertura do widget de chat rastreada');
+};
+
+/**
+ * Rastreia fechamento do widget de chat do WhatsApp
+ */
+export const trackChatWidgetClose = () => {
+    if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'chat_widget_close', {
+            'event_category': 'engagement',
+            'event_label': 'Widget WhatsApp Fechado',
+            'value': 1
+        });
+    }
+
+    console.log('✅ Fechamento do widget de chat rastreado');
+};
+
+/**
+ * Rastreia clique em mensagem rápida do chat
+ */
+export const trackQuickMessageClick = (message: string) => {
+    if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'quick_message_click', {
+            'event_category': 'engagement',
+            'event_label': message,
+            'value': 1
+        });
+    }
+
+    if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('trackCustom', 'QuickMessageClick', {
+            message: message
+        });
+    }
+
+    console.log(`✅ Mensagem rápida clicada: ${message}`);
+};
+
+/**
+ * Rastreia envio de mensagem personalizada do chat
+ */
+export const trackCustomMessageSend = (messageLength: number) => {
+    if (typeof window !== 'undefined' && window.gtag) {
+        window.gtag('event', 'custom_message_send', {
+            'event_category': 'engagement',
+            'event_label': 'Mensagem Personalizada Enviada',
+            'value': messageLength
+        });
+    }
+
+    if (typeof window !== 'undefined' && window.fbq) {
+        window.fbq('trackCustom', 'CustomMessageSend', {
+            messageLength: messageLength
+        });
+    }
+
+    console.log(`✅ Mensagem personalizada enviada (${messageLength} caracteres)`);
+};
+
 export default {
     trackFormSubmission,
     trackWhatsAppClick,
@@ -206,5 +282,9 @@ export default {
     trackFormError,
     trackFormStart,
     trackQuoteButtonClick,
-    trackModalView
+    trackModalView,
+    trackChatWidgetOpen,
+    trackChatWidgetClose,
+    trackQuickMessageClick,
+    trackCustomMessageSend
 };

@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Image from 'next/image';
 import HeroCarousel from '@/components/HeroCarousel';
 import QuoteForm from '@/components/QuoteForm';
+import WhatsAppChat from '@/components/WhatsAppChat';
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -245,16 +246,13 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* WhatsApp Float */}
-      <a
-        href="https://wa.me/5511994013938"
-        className="whatsapp-float"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Fale conosco no WhatsApp"
-      >
-        <i className="bi bi-whatsapp"></i>
-      </a>
+      {/* WhatsApp Chat Widget */}
+      <WhatsAppChat
+        phoneNumber="5511994013938"
+        agentName="Atendimento Cortinas Bresser"
+        welcomeMessage="Olá! 👋&#10;&#10;Sou da equipe Cortinas Bresser. Como posso ajudá-lo hoje?"
+        position="right"
+      />
 
       {/* Modal de Confirmação */}
       {showModal && (
