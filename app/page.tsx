@@ -238,8 +238,16 @@ export default function Home() {
               <p className="mb-2 text-gray-400">
                 © 2025 <strong className="text-gold">Cortinas Bresser</strong>
               </p>
-              <p className="mb-0 text-sm text-gray-500">
+              <p className="mb-2 text-sm text-gray-500">
                 Elegância e sofisticação em cortinas sob medida
+              </p>
+              <p className="mb-0 text-sm">
+                <a
+                  href="/privacidade"
+                  className="text-gray-400 hover:text-gold transition-colors duration-300 underline"
+                >
+                  Política de Privacidade
+                </a>
               </p>
             </div>
           </div>
